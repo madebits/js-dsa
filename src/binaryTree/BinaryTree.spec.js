@@ -71,7 +71,7 @@ test('BinaryTree :: is full', t => {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-test('BinaryTree :: find common parent', t => {
+test.only('BinaryTree :: find common parent', t => {
   // O(n) with O(n) space
   const findCommonParent = (tree, node1, node2) => {
     if (!tree || !node1 || !node2) return null
@@ -94,10 +94,39 @@ test('BinaryTree :: find common parent', t => {
     const path2 = findPath(tree, node2)
     if (!path2) return null
     let i = 0
-    while ((path1[i] === path2[i]) && (i < path1.length) && (i < path2.length)) {
+    let length = path1.length < path2.length ? path1.length : path2.length
+    while ((path1[i] === path2[i]) && (i < length)) {
       i++
     }
-    return path1[i]
+    return path1[i - 1]
+  }
+
+  // O(n)
+  const findCommonParent2 = (tree, node1, node2) => {
+    // find if node is in tree
+    const covers = (tree, node) => {
+      if (!tree) return false
+      if (tree === node) return true
+      return covers(tree.left, node) || covers(tree.right, node)
+    }
+    const commonParent = (tree, node1, node2) => {
+      if (!tree || (tree === node1) || (tree === node2)) {
+        return tree
+      }
+      const node1Left = covers(tree.left, node1)
+      const node2Left = covers(tree.left, node2)
+      if (node1Left !== node2Left) {
+        return tree
+      }
+      // dig deeper on children side
+      return commonParent(node1Left ? tree.left : tree.right, node1, node2)
+    }
+
+    if (!covers(tree, node1) || !covers(tree, node2)) {
+      return null
+    }
+
+    return commonParent(tree, node1, node2)
   }
 
   const node1 = new BinaryTree(31)
@@ -117,7 +146,9 @@ test('BinaryTree :: find common parent', t => {
   )
 
   const parent = findCommonParent(bt, node1, node2)
-  t.equal(parent.value, 3)
+  t.equal(parent.value, 1)
+  const parent2 = findCommonParent2(bt, node1, node2)
+  t.equal(parent2.value, 1)
   t.end()
 })
 
