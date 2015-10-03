@@ -46,7 +46,7 @@ const generate = function () {
   const files = walkSync(src)
   let text = `Data Structures and Algorithms in JavaScript${os.EOL}=======${os.EOL}${os.EOL}`
   text += files.map(_ => { 
-    return `*${_.endsWith('.spec.js') ? '\t*' : ''} [${_.substr(src.length + 1).replace(/\\/g, '/')}](.${_.substr(dir.length).replace(/\\/g, '/')})`
+    return `${_.endsWith('.spec.js') ? '\t*' : '*'} [${_.substr(src.length + 1).replace(/\\/g, '/')}](.${_.substr(dir.length).replace(/\\/g, '/')})`
   }).join(os.EOL)
 
   fs.writeFileSync(path.join(__dirname, 'README.md'), text)
