@@ -68,17 +68,21 @@ class BinarySearchTree extends BinaryTree {
       case 0:
         break
       case -1:
-        if (this.left) this.left.insert(value)
-        else {
+        if (this.left) {
+          return this.left.insert(value)
+        } else {
           this.left = new BinarySearchTree(value, this.comparer)
           this.left.parent = this // for remove
+          return this.left
         }
         break
       case 1:
-        if (this.right) this.right.insert(value)
-        else {
+        if (this.right) {
+          return this.right.insert(value)
+        } else {
           this.right = new BinarySearchTree(value, this.comparer)
           this.right.parent = this // for remove
+          return this.right
         }
         break
     }
