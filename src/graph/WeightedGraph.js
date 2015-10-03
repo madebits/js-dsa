@@ -370,15 +370,18 @@ class WeightedGraph {
     return this.allEdges.reduce((weight, edge) => weight + edge.weight, 0)
   }
 
-  toAdjacencyMatrix() {
+  // edgeToWeightCb: (edge, start, startIdx, end, endIdx) => edge.weight
+  toAdjacencyMatrix(edgeToWeightCb = null) {
+    edgeToWeightCb = edgeToWeightCb || ((edge, start, startIdx, end, endIdx) => edge.weight)
     const { vertices, reverseIndex } = this.allVerticesWithIndex
     if (!vertices.length) return null
     const matrix = new Array(vertices.length).fill(null).map(_ => new Array(vertices.length).fill(Infinity))
     vertices.forEach((vertex, idx) => {
+      matrix[idx][idx] = 0 // each vertex can reach self
       vertex.neighbors.forEach(neighbor => {
         const neighborIdx = reverseIndex.get(neighbor)
         const edge = this.edgeByVertices(vertex, neighbor)
-        matrix[idx][neighborIdx] = edge.weight
+        matrix[idx][neighborIdx] = edgeToWeightCb(edge, vertex, idx, neighbor, neighborIdx)
       })
     })
 

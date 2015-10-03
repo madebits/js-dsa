@@ -60,6 +60,7 @@ class Dijkstra {
   }
 
   buildPath(result, targetVertex) {
+    if (!result) return null
     const previous = result.previous
     targetVertex = targetVertex || result.targetVertex
     if (!previous || !targetVertex || !previous.get(targetVertex)) return null
