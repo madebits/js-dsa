@@ -1,5 +1,6 @@
 const test = require('tape')
 const BinaryTree = require('./BinaryTree')
+const DfsBfs = require('../graph/DfsBfs')
 
 // warning not all test cases are handled and some tests are merged together
 
@@ -67,3 +68,57 @@ test('BinaryTree :: is full', t => {
   )).isFull)
   t.end()
 })
+
+////////////////////////////////////////////////////////////////////////////////
+
+test('BinaryTree :: find common parent', t => {
+  // O(n) with O(n) space
+  const findCommonParent = (tree, node1, node2) => {
+    if (!tree || !node1 || !node2) return null
+    const findPath = (tree, targetNode) => {
+      let targetPath
+      DfsBfs.dfs(tree, {
+        enterNode: (node, path) => {
+          if (node === targetNode) {
+            targetPath = path.slice(0)
+          }
+        },
+        shouldStop: () => {
+          return !!targetPath
+        }
+      }, true)
+      return targetPath
+    }
+    const path1 = findPath(tree, node1)
+    if (!path1) return null
+    const path2 = findPath(tree, node2)
+    if (!path2) return null
+    let i = 0
+    while ((path1[i] === path2[i]) && (i < path1.length) && (i < path2.length)) {
+      i++
+    }
+    return path1[i]
+  }
+
+  const node1 = new BinaryTree(31)
+  const node2 = new BinaryTree(42)
+  const bt = new BinaryTree(0,
+    new BinaryTree(1,
+      new BinaryTree(3,
+        node1,
+        new BinaryTree(32)),
+      new BinaryTree(4,
+        new BinaryTree(41),
+        node2)
+    ),
+    new BinaryTree(2,
+      new BinaryTree(5)
+    )
+  )
+
+  const parent = findCommonParent(bt, node1, node2)
+  t.equal(parent.value, 3)
+  t.end()
+})
+
+////////////////////////////////////////////////////////////////////////////////

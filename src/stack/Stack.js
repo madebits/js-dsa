@@ -27,7 +27,7 @@ class Stack {
   }
 
   _checkEmpty() {
-    if (this.index < 0) throw new Error('stack is empty')
+    if (this.isEmpty) throw new Error('stack is empty')
   }
 
   push(value) {
@@ -48,6 +48,23 @@ class Stack {
 
   get count() {
     return this.index + 1
+  }
+
+  get isEmpty() {
+    return this.index < 0
+  }
+
+  toArray() {
+    if (this.isEmpty) return []
+    return this.data.slice(0, this.index + 1).reverse()
+  }
+
+  fromArray(a) {
+    if (!a || !a.length) return
+    // can be optimized to pre-allocate this.data as needed
+    for (let e of a) {
+      this.push(e)
+    }
   }
 }
 

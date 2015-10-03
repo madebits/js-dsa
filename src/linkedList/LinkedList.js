@@ -8,7 +8,10 @@ class LinkedListNode {
 
   visit(visitorCb) {
     if (!visitorCb) throw new Error('visitorCb')
+    const hash = new Set()
     for (let node = this; node; node = node.next) {
+      if (hash.has(node)) break // loop
+      hash.add(node)
       if (!visitorCb(node)) break
     }
   }

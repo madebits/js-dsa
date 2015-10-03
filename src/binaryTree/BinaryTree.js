@@ -24,6 +24,14 @@ class BinaryTree {
     return Math.max(this.leftHeight, this.rightHeight)
   }
 
+  // makes it easier to run graph algorithms
+  get neighbors() {
+    const res = []
+    if (this.left) res.push(this.left)
+    if (this.right) res.push(this.right)
+    return res
+  }
+
   //////////////////////////////////////////////////////////////////////////////
 
   inOrderTraversal(visitorCb, stopCb = null) {

@@ -66,6 +66,7 @@ class BinarySearchTree extends BinaryTree {
     }
     switch (this._compare(value)) {
       case 0:
+        // comment break to allow non-unique values
         break
       case -1:
         if (this.left) {

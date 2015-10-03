@@ -31,3 +31,40 @@ test('Stack :: reverse', t => {
   t.throws(() => st.pop())
   t.end()
 })
+
+test('Stack :: array', t => {
+  const st = new Stack()
+  const a = [3, 4, 5, 6, 5, 7]
+  st.fromArray(a)
+  t.deepEquals(st.toArray(), a.reverse(), 'array')
+  t.end()
+})
+
+////////////////////////////////////////////////////////////////////////////////
+
+test('Stack :: sort stack using another stack', t => {
+  const sortStack = (s) => {
+    const o = new Stack() // other
+    while (!s.isEmpty) {
+      const tmp = s.pop()
+      while (!o.isEmpty && (o.peek > tmp)) {
+        s.push(o.pop())
+      }
+      o.push(tmp)
+    }
+    // left over
+    while (!o.isEmpty) {
+      s.push(o.pop())
+    }
+    return s
+  }
+
+  const st = new Stack()
+  const a = [9, 3, 8, 5, 6, 5, 7]
+  st.fromArray(a)
+  t.same(sortStack(st).toArray(), a.sort())
+
+  t.end()
+})
+
+////////////////////////////////////////////////////////////////////////////////
