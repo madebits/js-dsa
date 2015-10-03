@@ -106,6 +106,7 @@ class WeightedGraph {
     this.clear()
     this.sameValue = valueEqualityComparer || ((a, b) => a === b)
     this.isDirected = isDirected
+    this.isGraph = true // to recognize instances in js code
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -130,6 +131,11 @@ class WeightedGraph {
   clear() {
     this.vertices = new Set() // {} would be wrong here
     this.edges = new Set()
+  }
+
+  // same this.allVertices
+  get neighbors() {
+    return this.allVertices
   }
 
   get allVertices() {
@@ -201,7 +207,7 @@ class WeightedGraph {
     return vertices.length ? vertices[0] : null
   }
 
-  neighbors(vertex) {
+  neighborsByVertex(vertex) {
     if (!this.hasVertex(vertex)) throw new Error('vertex not in graph')
     return vertex.neighbors
   }
@@ -233,6 +239,7 @@ class WeightedGraph {
 
   inDegree(vertex) {
     if (!vertex || !this.hasVertex(vertex)) return -1
+    if (!this.isDirected) return vertex.degree
     return this.allEdges.reduce((count, edge) => {
       if (edge.end === vertex) {
         count++
@@ -337,10 +344,14 @@ class WeightedGraph {
     return vertices[Math.floor(Math.random() * vertices.length)]
   }
 
+  transpose() {
+    this.reverseDirection()
+  }
+
   // change direction of edges
   reverseDirection() {
     if (!this.isDirected) return // makes no sense
-    this.edges.forEach(edge => {
+    this.allEdges.forEach(edge => {
       this.removeEdge(edge)
       edge.reverseDirection()
       this.addEdge(edge)

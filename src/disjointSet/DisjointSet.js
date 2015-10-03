@@ -137,7 +137,12 @@ class DisjointSet {
   }
 
   toString() {
-    return Array.from(this.items.entries()).map(_ => `[${_[1].isRoot ? '*' + _[1].rank : ''}]${_[0]}`).join(', ')
+    let text = ''
+    const roots = this.roots
+    roots.forEach(root => {
+      text += `${root}: {${this.elements(root).join(', ')}}; `
+    })
+    return text
   }
 }
 

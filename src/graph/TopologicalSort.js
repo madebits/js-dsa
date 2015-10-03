@@ -1,6 +1,29 @@
 // https://en.wikipedia.org/wiki/Topological_sorting
 
-const Graph = require('./Graph')
+class Graph {
+  constructor(value, children = [], graphRoot = false) {
+    if (graphRoot) this.isRoot = true
+    else this.value = value
+    this.children = children || []
+  }
+
+  addChild(node) {
+    if (!node) throw new Error('node')
+    this.children.push(node)
+  }
+
+  get degree() {
+    return this.children.length
+  }
+
+  toString() {
+    return this.value
+  }
+
+  static create(connectedGraphs = []) {
+    return new Graph(null, connectedGraphs, true)
+  }
+}
 
 class TopologicalSort {
   _getNode(nodesMap, value) {

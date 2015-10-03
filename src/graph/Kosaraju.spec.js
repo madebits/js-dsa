@@ -1,0 +1,57 @@
+const test = require('tape')
+const Kosaraju = require('./Kosaraju')
+const graph = require('./WeightedGraph')
+
+test('Kosaraju :: strong connected components', t => {
+  const g = new graph.WeightedGraph(true)
+
+  g.addEdgeFromToByValue('a', 'b')
+  g.addEdgeFromToByValue('b', 'c')
+  g.addEdgeFromToByValue('b', 'f')
+  g.addEdgeFromToByValue('b', 'e')
+  g.addEdgeFromToByValue('c', 'd', 0, true)
+  g.addEdgeFromToByValue('c', 'g')
+  g.addEdgeFromToByValue('d', 'h', 0, true)
+  g.addEdgeFromToByValue('h', 'g')
+  g.addEdgeFromToByValue('g', 'f', 0, true)
+  g.addEdgeFromToByValue('e', 'a')
+  g.addEdgeFromToByValue('e', 'f')
+
+  const ks = new Kosaraju()
+  const connectedSets = ks.scc(g)
+  connectedSets.forEach(oneSet => {
+    const values = oneSet.map(_ => _.value).sort()
+    t.comment(values.join(','))
+    if (values[0] === 'a') t.same(values, ['a', 'b', 'e'])
+    else if (values[0] === 'c') t.same(values, ['c', 'd', 'h'])
+    else if (values[0] === 'f') t.same(values, ['f', 'g'])
+  })
+  t.end()
+})
+
+test('Kosaraju :: strong connected components 2', t => {
+  const g = new graph.WeightedGraph(true)
+
+  g.addEdgeFromToByValue('a', 'b')
+  g.addEdgeFromToByValue('b', 'c')
+  g.addEdgeFromToByValue('b', 'f')
+  g.addEdgeFromToByValue('b', 'e')
+  g.addEdgeFromToByValue('c', 'd', 0, true)
+  g.addEdgeFromToByValue('c', 'g')
+  g.addEdgeFromToByValue('d', 'h', 0, true)
+  g.addEdgeFromToByValue('h', 'g')
+  g.addEdgeFromToByValue('g', 'f', 0, true)
+  g.addEdgeFromToByValue('e', 'a')
+  g.addEdgeFromToByValue('e', 'f')
+
+  const ks = new Kosaraju()
+  const connectedSets = ks.scc2(g)
+  connectedSets.forEach(oneSet => {
+    const values = oneSet.map(_ => _.value).sort()
+    t.comment(values.join(','))
+    if (values[0] === 'a') t.same(values, ['a', 'b', 'e'])
+    else if (values[0] === 'c') t.same(values, ['c', 'd', 'h'])
+    else if (values[0] === 'f') t.same(values, ['f', 'g'])
+  })
+  t.end()
+})

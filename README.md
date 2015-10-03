@@ -25,7 +25,8 @@ Data Structures and Algorithms in JavaScript
 	* [DfsBfs.spec.js](/src/graph/DfsBfs.spec.js)  &#10004;
 	* [Dijkstra.js](/src/graph/Dijkstra.js)  | [(?)](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm)
 	* [Dijkstra.spec.js](/src/graph/Dijkstra.spec.js)  &#10004;
-	* [Graph.js](/src/graph/Graph.js)  | [(?)](https://en.wikipedia.org/wiki/Graph_(abstract_data_type))
+	* [Kosaraju.js](/src/graph/Kosaraju.js)  | [(?)](https://en.wikipedia.org/wiki/Kosaraju%27s_algorithm)
+	* [Kosaraju.spec.js](/src/graph/Kosaraju.spec.js)  &#10004;
 	* [KruskalMinimumSpanningTree.js](/src/graph/KruskalMinimumSpanningTree.js)  | [(?)](https://en.wikipedia.org/wiki/Kruskal%27s_algorithm)
 	* [KruskalMinimumSpanningTree.spec.js](/src/graph/KruskalMinimumSpanningTree.spec.js)  &#10004;
 	* [TopologicalSort.js](/src/graph/TopologicalSort.js)  | [(?)](https://en.wikipedia.org/wiki/Topological_sorting)
@@ -46,12 +47,16 @@ Data Structures and Algorithms in JavaScript
 * [sequence](/src/sequence/)
 	* [BinarySearch.js](/src/sequence/BinarySearch.js)  | [(?)](https://en.wikipedia.org/wiki/Binary_search_algorithm)
 	* [BinarySearch.spec.js](/src/sequence/BinarySearch.spec.js)  &#10004;
+	* [Fibonacci.js](/src/sequence/Fibonacci.js)  | [(?)](https://en.wikipedia.org/wiki/Fibonacci_number)
+	* [Fibonacci.spec.js](/src/sequence/Fibonacci.spec.js)  &#10004;
 	* [LongestCommonSubsequence.js](/src/sequence/LongestCommonSubsequence.js)  | [(?)](https://en.wikipedia.org/wiki/Longest_common_subsequence_problem)
 	* [LongestCommonSubsequence.spec.js](/src/sequence/LongestCommonSubsequence.spec.js)  &#10004;
 	* [LongestIncreasingSubsequence.js](/src/sequence/LongestIncreasingSubsequence.js)  | [(?)](https://en.wikipedia.org/wiki/Longest_increasing_subsequence)
 	* [LongestIncreasingSubsequence.spec.js](/src/sequence/LongestIncreasingSubsequence.spec.js)  &#10004;
-	* [Sequences.js](/src/sequence/Sequences.js)  | [(?)](https://en.wikipedia.org/wiki/Fibonacci_number)
-	* [Sequences.spec.js](/src/sequence/Sequences.spec.js)  &#10004;
+	* [Random.js](/src/sequence/Random.js)  | [(?)](https://en.wikipedia.org/wiki/Discrete_uniform_distribution)
+	* [Random.spec.js](/src/sequence/Random.spec.js)  &#10004;
+	* [Range.js](/src/sequence/Range.js) 
+	* [Range.spec.js](/src/sequence/Range.spec.js)  &#10004;
 * [set](/src/set/)
 	* [Set.js](/src/set/Set.js)  | [(?)](https://en.wikipedia.org/wiki/Set_(abstract_data_type))
 	* [Set.spec.js](/src/set/Set.spec.js)  &#10004;
@@ -68,14 +73,14 @@ Data Structures and Algorithms in JavaScript
 	* [Stack.js](/src/stack/Stack.js)  | [(?)](https://en.wikipedia.org/wiki/Stack_(abstract_data_type))
 	* [Stack.spec.js](/src/stack/Stack.spec.js)  &#10004;
 * [string](/src/string/)
+	* [KnuthMorrisPratt.js](/src/string/KnuthMorrisPratt.js)  | [(?)](https://en.wikipedia.org/wiki/Knuth%E2%80%93Morris%E2%80%93Pratt_algorithm)
+	* [KnuthMorrisPratt.spec.js](/src/string/KnuthMorrisPratt.spec.js)  &#10004;
 	* [LevenshteinDistance.js](/src/string/LevenshteinDistance.js)  | [(?)](https://en.wikipedia.org/wiki/Levenshtein_distance)
 	* [LevenshteinDistance.spec.js](/src/string/LevenshteinDistance.spec.js)  &#10004;
 	* [LongestCommonSubstring.js](/src/string/LongestCommonSubstring.js)  | [(?)](https://en.wikipedia.org/wiki/Longest_common_substring_problem)
 	* [LongestCommonSubstring.spec.js](/src/string/LongestCommonSubstring.spec.js)  &#10004;
 	* [RabinKarp.js](/src/string/RabinKarp.js)  | [(?)](https://en.wikipedia.org/wiki/Rabin%E2%80%93Karp_algorithm)
 	* [RabinKarp.spec.js](/src/string/RabinKarp.spec.js)  &#10004;
-	* [StringSearch.js](/src/string/StringSearch.js)  | [(?)](https://en.wikipedia.org/wiki/Knuth%E2%80%93Morris%E2%80%93Pratt_algorithm)
-	* [StringSearch.spec.js](/src/string/StringSearch.spec.js)  &#10004;
 	* [naturalSort.js](/src/string/naturalSort.js)  | [(?)](https://en.wikipedia.org/wiki/Natural_sort_order)
 	* [naturalSort.spec.js](/src/string/naturalSort.spec.js)  &#10004;
 * [trie](/src/trie/)

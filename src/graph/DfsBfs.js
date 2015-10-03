@@ -3,71 +3,70 @@
 class DfsBfs {
   // https://en.wikipedia.org/wiki/Depth-first_search
   // return false from visitCb to stop search
-  static dfs(graph, visitCb, reportNodePath) {
+  // visitor = { enterNode, leaveNode, shouldStop }
+  static dfs(graph, visitor, reportNodePath = false, visited = null) {
     if (!graph) return
-    if (!visitCb) throw new Error('visitCb')
-    // js specific
-    const cancellationToken = { value: false }
-    const wrapper = function(node, pathStack) {
-      const res = visitCb(node, pathStack)
-      if (!res) {
-        cancellationToken.value = true
-      }
-      return res
-    }
-    const stopCb = function() {
-      return cancellationToken.value
-    }
-    this._dfs(graph, wrapper, new Map(), reportNodePath ? [] : null, stopCb)
+    if (!visitor) throw new Error('visitor')
+    visitor = DfsBfs._defaultVisitor(visitor)
+    DfsBfs._dfs(graph, visitor, visited || new Map(), reportNodePath ? [] : null)
   }
 
-  static _dfs(graph, visitCb, visited, pathStack, stopCb) {
-    if (stopCb()) return
-    if (!graph) return
-    if (!visitCb) throw new Error('visitCb')
-    if (!graph.isRoot) {
-      if (pathStack) pathStack.push(graph)
-      if (!visitCb(graph, pathStack)) {
-        return
-      }
+  static _dfs(graph, visitor, visited, pathStack) {
+    if (visitor.shouldStop()) return
+    if (!graph.isGraph) {
       visited.set(graph, true)
+      if (pathStack) pathStack.push(graph)
+      visitor.enterNode(graph, pathStack)
     }
-    for (let i = 0; i <= graph.children.length; i++) {
-      const child = graph.children[i]
-      if (!visited.get(child)) {
-        this._dfs(child, visitCb, visited, pathStack, stopCb)
-      }
+
+    for (let child of graph.neighbors) {
+      if (visited.get(child)) continue
+      DfsBfs._dfs(child, visitor, visited, pathStack)
     }
-    if (!graph.isRoot && pathStack) {
-      pathStack.pop(graph)
+
+    if (!graph.isGraph) {
+      visitor.leaveNode(graph, pathStack)
+      if (pathStack) pathStack.pop(graph)
     }
   }
 
   // https://en.wikipedia.org/wiki/Breadth-first_search
   // return false from visitCb to stop search
-  static bfs(graph, visitCb) {
+  // visitor = { enterNode, leaveNode, shouldStop }
+  static bfs(graph, visitor) {
     if (!graph) return
-    if (!visitCb) throw new Error('visitCb')
+    if (!visitor) throw new Error('visitor')
+    visitor = DfsBfs._defaultVisitor(visitor)
     const queue = []
     const marked = new Map()
-    if (!graph.isRoot) {
+    if (!graph.isGraph) {
       queue.push(graph)
       marked.set(graph, true)
     } else {
-      graph.children.forEach(child => {
+      graph.neighbors.forEach(child => {
         queue.push(child)
         marked.set(child, true)
       })
     }
     while (queue.length) {
       const node = queue.shift()
-      if (!visitCb(node)) break
-      node.children.forEach(child => {
+      visitor.enterNode(node)
+      if (visitor.shouldStop()) return
+      node.neighbors.forEach(child => {
         if (marked.get(child)) return
         queue.push(child)
         marked.set(child, true)
       })
+      visitor.leaveNode(node)
     }
+  }
+
+  static _defaultVisitor(visitor) {
+    visitor = visitor || {}
+    visitor.enterNode = visitor.enterNode || (() => {})
+    visitor.leaveNode = visitor.leaveNode || (() => {})
+    visitor.shouldStop = visitor.shouldStop || (() => false)
+    return visitor
   }
 }
 

@@ -1,78 +1,58 @@
 const test = require('tape')
-const Graph = require('./Graph')
+const graph = require('./WeightedGraph')
 const DfsBfs = require('./DfsBfs')
 
-test('Graph :: search', t => {
-  const g = Graph.create()
+test('DfsBfs :: dfs', t => {
+  const g = new graph.WeightedGraph()
+  g.addEdgeFromToByValue('A1', 'A1B1')
+  g.addEdgeFromToByValue('A1', 'A1B2')
+  g.addEdgeFromToByValue('A1B1', 'A1B1C1')
+  g.addEdgeFromToByValue('A1B1', 'A1B1C2')
+  g.addEdgeFromToByValue('A1B1', 'A1B1C3')
 
-  const a1 = new Graph('A1', [
-    new Graph('A1B1', []),
-    new Graph('A1B2', []),
-  ])
+  g.addEdgeFromToByValue('A2', 'A2B1')
+  g.addEdgeFromToByValue('A2', 'A2B2')
+  g.addEdgeFromToByValue('A2', 'A2B3')
 
-  const a2 = new Graph('A2', [
-    new Graph('A2B1', [a1]),
-  ])
+  g.addEdgeFromToByValue('A3', 'A3B1')
+  g.addEdgeFromToByValue('A3', 'A3B2')
 
-  const a3 = new Graph('A3', [
-    new Graph('A3B1', []),
-    new Graph('A3B2', [a2]),
-  ])
+  g.addEdgeFromToByValue('A4', 'A4B1')
+  g.addEdgeFromToByValue('A4', 'A4B2')
+  g.addEdgeFromToByValue('A4', 'A4B3')
+  g.addEdgeFromToByValue('A4B2', 'A4B2C1')
+  g.addEdgeFromToByValue('A4B2', 'A4B2C3')
+  g.addEdgeFromToByValue('A4B2', 'A4B2C3')
 
-  const a4 = new Graph('A4', [
-    new Graph('A4B1', [a1]),
-    new Graph('A4B2', [a3]),
-    new Graph('A4B3', [a2]),
-  ])
+  const nodes = []
+  let testPath
+  DfsBfs.dfs(g, {
+    enterNode: (node, path) => {
+      if (node.value === 'A4B2C3') {
+        testPath = path.slice(0) // clone
+      }
+      nodes.push(node.value)
+    }
+  }, true)
+  t.comment(nodes.join(','))
+  t.same(nodes, [ 'A1', 'A1B1', 'A1B1C1', 'A1B1C2', 'A1B1C3', 'A1B2', 'A2', 'A2B1', 'A2B2', 'A2B3', 'A3', 'A3B1', 'A3B2', 'A4', 'A4B1', 'A4B2', 'A4B2C1', 'A4B2C3', 'A4B3' ], 'dfs')
+  t.equals(testPath.map(_ => _.value).join('/'), 'A4/A4B2/A4B2C3', 'path')
+  t.end()
+})
 
-  // one connected graph
-  g.children.push(new Graph('0', [a1, a2, a3, a4]))
+test('DfsBfs :: bfs', t => {
+  const g = new graph.WeightedGraph()
+  g.addEdgeFromToByValue('A1', 'A1B1')
+  g.addEdgeFromToByValue('A1', 'A1B2')
+  g.addEdgeFromToByValue('A1B1', 'A1B1C1')
+  g.addEdgeFromToByValue('A1B1', 'A1B1C2')
+  g.addEdgeFromToByValue('A1B1', 'A1B1C3')
 
-  const dfsNodes = []
-  DfsBfs.dfs(g, (node) => {
-    dfsNodes.push(node.value)
-    return true // go on
+  const nodes = []
+  DfsBfs.bfs(g.firstVertexByValue('A1'), {
+    enterNode: (node) => nodes.push(node.value)
   })
-  t.comment(dfsNodes.join(','))
-  t.same(dfsNodes, ['0', 'A1', 'A1B1', 'A1B2', 'A2', 'A2B1', 'A3', 'A3B1', 'A3B2', 'A4', 'A4B1', 'A4B2', 'A4B3'], 'dfs')
-
-  const bfsNodes = []
-  DfsBfs.bfs(g, (node) => {
-    bfsNodes.push(node.value)
-    return true // go on
-  })
-  t.comment(bfsNodes.join(','))
-  t.same(bfsNodes, ['0', 'A1', 'A2', 'A3', 'A4', 'A1B1', 'A1B2', 'A2B1', 'A3B1', 'A3B2', 'A4B1', 'A4B2', 'A4B3'], 'bfs')
-
-  //stop, find A2B1
-  const dfsNodesStop = []
-  DfsBfs.dfs(g, (node) => {
-    dfsNodesStop.push(node.value)
-    return node.value !== 'A1B2'
-  })
-  t.comment(dfsNodesStop.join(','))
-  t.same(dfsNodesStop, ['0', 'A1', 'A1B1', 'A1B2'], 'dfsStop')
-
-  //stop, find A2B1
-  const bfsNodesStop = []
-  DfsBfs.bfs(g, (node) => {
-    bfsNodesStop.push(node.value)
-    return node.value !== 'A1B2'
-  })
-  t.comment(bfsNodesStop.join(','))
-  t.same(bfsNodesStop, ['0', 'A1', 'A2', 'A3', 'A4', 'A1B1', 'A1B2'], 'bfsStop')
-
-  // paths
-  const pathNodes = []
-  DfsBfs.dfs(g, (node, path) => {
-    const nodePath = [].concat(path) // copy path
-    pathNodes.push({
-      value: node.value,
-      path: nodePath
-    })
-    return true
-  }, true) // true to get path info
-  t.comment(pathNodes.map(_ => `${_.value} => ${_.path.join('/')}`).join('\n'))
-  t.equals(pathNodes.find(_ => _.value === 'A4B3').path.join('/'), '0/A4/A4B3', 'path')
+  t.comment(nodes.join(','))
+  t.same(nodes, [ 'A1', 'A1B1', 'A1B2', 'A1B1C1', 'A1B1C2', 'A1B1C3' ], 'bfs')
   t.end()
 })
