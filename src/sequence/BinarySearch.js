@@ -1,4 +1,4 @@
-// // https://en.wikipedia.org/wiki/Binary_search_algorithm
+// https://en.wikipedia.org/wiki/Binary_search_algorithm
 
 class BinarySearch {
   // assume seq is sorted, O(log(n))

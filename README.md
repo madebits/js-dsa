@@ -44,7 +44,7 @@ Data Structures and Algorithms in JavaScript
 	* [PriorityQueue.js](/src/priorityQueue/PriorityQueue.js)  [(?)](https://en.wikipedia.org/wiki/Priority_queue)
 	* [PriorityQueue.spec.js](/src/priorityQueue/PriorityQueue.spec.js)  &#10004; 
 * [sequence](/src/sequence/)
-	* [BinarySearch.js](/src/sequence/BinarySearch.js)  
+	* [BinarySearch.js](/src/sequence/BinarySearch.js)  [(?)](https://en.wikipedia.org/wiki/Binary_search_algorithm)
 	* [BinarySearch.spec.js](/src/sequence/BinarySearch.spec.js)  &#10004; 
 	* [LongestCommonSubsequence.js](/src/sequence/LongestCommonSubsequence.js)  [(?)](https://en.wikipedia.org/wiki/Longest_common_subsequence_problem)
 	* [LongestCommonSubsequence.spec.js](/src/sequence/LongestCommonSubsequence.spec.js)  &#10004; 
