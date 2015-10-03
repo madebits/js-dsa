@@ -182,3 +182,29 @@ test('LinkedList :: find loop', t => {
 })
 
 ////////////////////////////////////////////////////////////////////////////////
+
+test('LinkedList :: find all continuos sub-lists that sum to a target value', t => {
+  //                                     0, 1, 2, 3, 4, 5, 6, 7, 8,
+  const ll = new LinkedList().fromArray([1, 2, 3, 1, 1, 4, 5, 6, -1])
+
+  const targetSum = 5
+  let cumSum = 0
+  const nodeCumSum = new Map()
+  let head = ll.head
+  const res = []
+  let idx = -1 // we will store index of node, rather than node in this test, to make it easy to check
+  while (head) {
+    idx++
+    cumSum += head.value
+    nodeCumSum.set(cumSum, idx) // head
+    if (nodeCumSum.has(cumSum - targetSum)) {
+      res.push(nodeCumSum.get(cumSum - targetSum) + 1, idx) // head
+    }
+    head = head.next
+  }
+  t.comment(res)
+  t.same(res, [1, 2, 2, 4, 4, 5, 6, 6, 7, 8])
+  t.end()
+})
+
+////////////////////////////////////////////////////////////////////////////////
