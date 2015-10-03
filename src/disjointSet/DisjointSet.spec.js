@@ -1,0 +1,21 @@
+const test = require('tape')
+const DisjointSet = require('./DisjointSet')
+
+test('DisjointSet :: forest', t => {
+  const ds = new DisjointSet()
+  const a = [1, 2, 3, 4, 5]
+  a.forEach(_ => ds.makeSet(_))
+  t.comment(ds.toString())
+  t.same(ds.roots.sort(), a, 'init')
+  ds.union(1, 2)
+  t.comment(ds.toString())
+  t.same(ds.roots.sort(), [1, 3, 4, 5], 'union')
+  t.equal(ds.find(2), 1)
+  ds.union(2, 3)
+  t.equal(ds.find(3), 1)
+  t.equal(ds.size(3), 3)
+  t.same(ds.elements(3).sort(), [1, 2, 3], 'elements')
+  t.ok(ds.sameSet(2, 3))
+  t.comment(ds.toString())
+  t.end()
+})

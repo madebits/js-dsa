@@ -115,10 +115,22 @@ class WeightedGraph {
 
   //////////////////////////////////////////////////////////////////////////////
 
-  // creates a new vertex, but does not add it to graph (use addVertex to add it)
+  // factory: create a new graph
+  createNewGraph(valueEqualityComparer = null) {
+    return new WeightedGraph(valueEqualityComparer || this.sameValue.bind(this))
+  }
+
+  // factory: creates a new vertex, but does not add it to graph (use addVertex to add it)
   createNewVertex(value) {
     return new Vertex(value)
   }
+
+  // factory: create edge, but does not add it to graph
+  createNewEdge(startVertex, endVertex, weight = 0) {
+    return new Edge(startVertex, endVertex, weight)
+  }
+
+  //////////////////////////////////////////////////////////////////////////////
 
   clear() {
     this.vertices = new Set() // {} would be wrong here
@@ -176,10 +188,13 @@ class WeightedGraph {
   }
 
   // useful only if unique node values are needed
+  // return the first found or new added vertex
   addVertexByValue(value) {
-    const vertex = this.firstVertexByValue(value)
-    if (vertex) return // already there
-    return this.addVertex(new Vertex(value))
+    let vertex = this.firstVertexByValue(value)
+    if (vertex) return vertex // already there
+    vertex = new Vertex(value)
+    this.addVertex(vertex)
+    return vertex
   }
 
   verticesByValue(value) {
@@ -234,17 +249,17 @@ class WeightedGraph {
   //////////////////////////////////////////////////////////////////////////////
 
   // useful only if unique node values are needed
-  addEdgeFromToByValue(value1, value2, weight = 0, inBothDirections = false) {
+  addEdgeFromToByValue(value1, value2, weight = 0, bidirectional = false) {
     return this.addEdgeFromTo(
-      this.firstVertexByValue(value1),
-      this.firstVertexByValue(value2),
+      this.addVertexByValue(value1),
+      this.addVertexByValue(value2),
       weight,
-      inBothDirections)
+      bidirectional)
   }
 
-  addEdgeFromTo(vertex1, vertex2, weight = 0, inBothDirections = false) {
+  addEdgeFromTo(vertex1, vertex2, weight = 0, bidirectional = false) {
     this.addEdge(new Edge(vertex1, vertex2, weight))
-    if (inBothDirections && (vertex1 !== vertex2)) {
+    if (bidirectional && (vertex1 !== vertex2)) {
       this.addEdge(new Edge(vertex2, vertex1, weight))
     }
     return this
@@ -260,6 +275,18 @@ class WeightedGraph {
       }
     }
     edge.start.addEdge(edge) // directed only start node has the edge
+    return this
+  }
+
+  addUndirectedEdge(edge) {
+    return this.addBidirectionalEdge(edge)
+  }
+
+  addBidirectionalEdge(edge) {
+    this.addEdge(edge)
+    if (!this.findReverseEdge(edge)) {
+      this.addEdgeFromTo(edge.end, edge.start, edge.weight, false)
+    }
     return this
   }
 
@@ -292,6 +319,12 @@ class WeightedGraph {
 
   hasEdgeByVerticesValue(startValue, endValue) {
     return !!this.edgeByVerticesValue(startValue, endValue)
+  }
+
+  findReverseEdge(edge) {
+    if (!edge) throw new Error('edge')
+    if (!this.hasEdge(edge)) return null
+    return this.edgeByVertices(edge.end, edge.start)
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -344,6 +377,23 @@ class WeightedGraph {
     })
 
     return { matrix, vertices, reverseIndex }
+  }
+
+  // does not clone values
+  cloneSubGraph(setOfEdges) {
+    const result = new WeightedGraph()
+    if (!setOfEdges) return result
+    const clones = new Map()
+    setOfEdges.forEach(edge => {
+      if (!this.hasEdge(edge)) return
+      for (let v of edge.vertices()) {
+        if (!clones.has(v)) {
+          clones.set(v, new Vertex(v.value))
+        }
+      }
+      result.addEdgeFromTo(clones.get(edge.start), clones.get(edge.end), edge.weight)
+    })
+    return result
   }
 
   toString() {
