@@ -2,7 +2,7 @@ const test = require('tape')
 const AStar = require('./AStar')
 const graph = require('./WeightedGraph')
 
-test.only('AStar :: search', t => {
+test('AStar :: search', t => {
   const g = new graph.WeightedGraph()
 
   const verticesByValue = ['Los Angles', 'New York', 'Vancouver', 'London', 'Paris', 'Frankfurt', 'Rome']
