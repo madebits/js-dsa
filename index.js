@@ -1,3 +1,6 @@
+
+// run tests
+
 require('require-dir')('src', {
   recurse: true,
   //duplicates: true,
@@ -40,15 +43,28 @@ const walkSync = (d) =>
       .filter(_ => _.endsWith('.js'))
     : d
 
-const generate = function () {
+const generate = () => {
   const dir = path.resolve(__dirname)
   const src = path.resolve(path.join(__dirname, './src'))
-  const files = walkSync(src)
-  let text = `Data Structures and Algorithms in JavaScript${os.EOL}=======${os.EOL}${os.EOL}`
-  text += files.map(_ => { 
-    return `${_.endsWith('.spec.js') ? '\t*' : '*'} [${_.substr(src.length + 1).replace(/\\/g, '/')}](.${_.substr(dir.length).replace(/\\/g, '/')})`
-  }).join(os.EOL)
-
+  const files = walkSync(src).sort().map(_ => {
+    const fileLink = _.substr(dir.length).replace(/\\/g, '/')
+    return {
+      isSpec: _.endsWith('.spec.js'),
+      name: path.basename(_),
+      link: fileLink,
+      folderPath: path.dirname(fileLink) + '/',
+      folderName: path.dirname(_.substr(src.length + 1).replace(/\\/g, '/'))
+    }
+  })
+  let text = `&#10024; Data Structures and Algorithms in JavaScript${os.EOL}=======${os.EOL}${os.EOL}`
+  let previousDir
+  files.forEach(_ =>{
+    if(previousDir !== _.folderPath) {
+      text += `* [${_.folderName}](${_.folderPath})${os.EOL}`
+      previousDir = _.folderPath
+    }
+    text += `\t* [${_.name}](${_.link}) ${_.isSpec ? ' &#10004;' : '&#9749;' }${os.EOL}`
+  })
   fs.writeFileSync(path.join(__dirname, 'README.md'), text)
 }
 
