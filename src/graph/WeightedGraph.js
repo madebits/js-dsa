@@ -339,6 +339,7 @@ class WeightedGraph {
 
   // change direction of edges
   reverseDirection() {
+    if (!this.isDirected) return // makes no sense
     this.edges.forEach(edge => {
       this.removeEdge(edge)
       edge.reverseDirection()

@@ -73,7 +73,7 @@ test('WeightedGraph :: add / remove', t => {
   t.end()
 })
 
-test('WeightedGraph :: add / remove', t => {
+test('WeightedGraph :: self', t => {
   const g = new graph.WeightedGraph(true)
   g.addVertexByValue('1')
   g.addEdgeFromToByValue('1', '1', 0, true)
