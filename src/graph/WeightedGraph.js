@@ -43,18 +43,28 @@ class Vertex {
 
   edgeByVertex(vertex) {
     if (!vertex) return null
-    return this.edges.find(_ => _.start === vertex || _.end === vertex)
+    return this.edges.find(_ => _.end === vertex)
   }
 
   //////////////////////////////////////////////////////////////////////////////
 
   get neighbors() {
-    return this.edges.map(_ => _.start === this ? _.end : _.start)
+    return this.edges.map(_ => _.end)
+  }
+
+  get randomNeighbor() {
+    if (!this.degree) return null
+    const edge = this.edges[Math.floor(Math.random() * this.edges.length)]
+    return edge.start === this ? edge.end : edge.start
   }
 
   hasNeighbor(vertex) {
-    if (!vertex || (vertex === this)) return false
+    if (!vertex) return false // || (vertex === this)
     return !!this.edgeByVertex(vertex)
+  }
+
+  get pointsToSelf() {
+    return this.edges.some(_ => _.end === this)
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -90,8 +100,7 @@ class Edge {
 // a directed graph
 class WeightedGraph {
   constructor(valueEqualityComparer = null) {
-    this.vertices = {}
-    this.edges = {}
+    this.clear()
     this.sameValue = valueEqualityComparer || ((a, b) => a === b)
   }
 
@@ -102,39 +111,48 @@ class WeightedGraph {
     return new Vertex(value)
   }
 
+  clear() {
+    this.vertices = new Set() // {} would be wrong here
+    this.edges = new Set()
+  }
+
   get allVertices() {
-    return Object.values(this.vertices)
+    return Array.from(this.vertices)
   }
 
   // reverse lookup index map from vertex to its index
   get allVerticesWithIdx() {
     const vertices = this.allVertices
-    const reverseIdx = {}
+    const reverseIdx = new Map()
     vertices.forEach((vertex, idx) => {
-      reverseIdx[vertex] = idx
+      reverseIdx.set(vertex, idx)
     })
     return { vertices, reverseIdx }
   }
 
   get allEdges() {
-    return Object.values(this.edges)
+    return Array.from(this.edges)
   }
 
   hasVertex(vertex) {
     if (!vertex) return false
-    return !!this.vertices[vertex]
+    return this.vertices.has(vertex)
   }
 
   hasEdge(edge) {
     if (!edge) return false
-    return !!this.edges[edge]
+    return this.edges.has(edge)
+  }
+
+  hasVertexByValue(value) {
+    return !!this.firstVertexByValue(value)
   }
 
   //////////////////////////////////////////////////////////////////////////////
 
   addVertex(vertex) {
     if (!vertex) throw new Error('null vertex')
-    this.vertices[vertex] = vertex
+    this.vertices.add(vertex)
     return this
   }
 
@@ -159,6 +177,41 @@ class WeightedGraph {
     return vertex.neighbors
   }
 
+  // removes edges, but leaves vertex in graph
+  unlinkVertex(vertex) {
+    if (!vertex || !this.hasVertex(vertex)) return false
+    const edgesToRemove = this.allEdges.filter(_ => _.start === vertex || _.end === vertex)
+    edgesToRemove.forEach(_ => this.removeEdge(_))
+    return true
+  }
+
+  // unlink and remove from graph
+  removeVertex(vertex) {
+    if (!this.unlinkVertex(vertex)) return false
+    this.vertices.delete(vertex)
+    return true
+  }
+
+  removeVertexByValue(value) {
+    this.verticesByValue(value).forEach(_ => this.removeVertex(_))
+    return this
+  }
+
+  outDegree(vertex) {
+    if (!vertex || !this.hasVertex(vertex)) return -1
+    return vertex.degree
+  }
+
+  inDegree(vertex) {
+    if (!vertex || !this.hasVertex(vertex)) return -1
+    return this.allEdges.reduce((count, edge) => {
+      if (edge.end === vertex) {
+        count++
+      }
+      return count
+    }, 0)
+  }
+
   //////////////////////////////////////////////////////////////////////////////
 
   // useful only if unique node values are needed
@@ -181,7 +234,7 @@ class WeightedGraph {
   addEdge(edge) {
     if (!edge) throw new Error('null edge')
     if (this.hasEdge(edge)) return this
-    this.edges[edge] = edge
+    this.edges.add(edge)
     for (let vertex of edge.vertices()) {
       if (!this.hasVertex(vertex)) {
         this.addVertex(vertex)
@@ -194,7 +247,7 @@ class WeightedGraph {
   removeEdge(edge) {
     if (!edge) throw new Error('edge')
     if (!this.hasEdge(edge)) return false
-    delete this.edges[edge]
+    this.edges.delete(edge)
     for (let vertex of edge.vertices()) {
       vertex.removeEdge(edge)
     }
@@ -208,19 +261,43 @@ class WeightedGraph {
     return start.edgeByVertex(end)
   }
 
+  edgeByVerticesValue(startValue, endValue) {
+    return this.edgeByVertices(
+      this.firstVertexByValue(startValue),
+      this.firstVertexByValue(endValue))
+  }
+
   hasEdgeByVertices(start, end) {
     return !!this.edgeByVertices(start, end)
   }
 
+  hasEdgeByVerticesValue(startValue, endValue) {
+    return !!this.edgeByVerticesValue(startValue, endValue)
+  }
+
   //////////////////////////////////////////////////////////////////////////////
+
+  randomVertex() {
+    const vertices = this.allVertices
+    if (!vertices.length) return null
+    return vertices[Math.floor(Math.random() * vertices.length)]
+  }
 
   // change direction of edges
   reverseDirection() {
-    this.allEdges.forEach(edge => {
+    this.edges.forEach(edge => {
       this.removeEdge(edge)
       edge.reverseDirection()
       this.addEdge(edge)
     })
+  }
+
+  get vertexCount() {
+    return this.vertices.size
+  }
+
+  get edgeCount() {
+    return this.edges.size
   }
 
   get totalWeight() {
@@ -233,7 +310,7 @@ class WeightedGraph {
     const matrix = new Array(vertices.length).fill(null).map(_ => new Array(vertices.length).fill(Infinity))
     vertices.forEach((vertex, idx) => {
       vertex.neighbors.forEach(neighbor => {
-        const neighborIdx = reverseIdx[neighbor]
+        const neighborIdx = reverseIdx.get(neighbor)
         const edge = this.edgeByVertices(vertex, neighbor)
         matrix[idx][neighborIdx] = edge.weight
       })
@@ -243,7 +320,7 @@ class WeightedGraph {
   }
 
   toString() {
-    return this.allVertices.join(',')
+    return this.allVertices.map(_ => `${_.toString()}->[${_.edges.join(',')}]`).join(' ')
   }
 }
 

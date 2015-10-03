@@ -65,8 +65,8 @@ class TravellingSalesman {
     for (let i = 1; i < cycle.length; i++) {
       const from = cycle[i - 1]
       const to = cycle[i]
-      const fromIdx = reverseIdx[from]
-      const toIdx = reverseIdx[to]
+      const fromIdx = reverseIdx.get(from)
+      const toIdx = reverseIdx.get(to)
       //weight += graph.edgeByVertices(from, to).weight
       weight += adjacencyMatrix[fromIdx][toIdx] // cannot be Infinite given there is a connection
     }
