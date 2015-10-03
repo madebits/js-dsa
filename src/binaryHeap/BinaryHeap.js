@@ -1,3 +1,4 @@
+// https://en.wikipedia.org/wiki/Binary_heap
 // binary tree stored as 0 based array
 class BinaryTreeArray {
   constructor() {

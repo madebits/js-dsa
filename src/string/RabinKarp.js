@@ -1,5 +1,5 @@
+// https://en.wikipedia.org/wiki/Rabin%E2%80%93Karp_algorithm
 class RabinKarp {
-  // https://en.wikipedia.org/wiki/Rabin%E2%80%93Karp_algorithm
   * find(word, text) {
     if (!word) return false
     if (!text) throw new Error('text')
