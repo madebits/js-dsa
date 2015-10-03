@@ -41,7 +41,8 @@ class AStar {
         // best path till now
         cameFrom.set(next, current)
         gScore.set(next, tentativeGScore)
-        fScore.set(next, gScore.get(next) + heuristicDistanceEstimate(graph, next, goal))
+        const approxDistance = (next === goal) ? 0 : heuristicDistanceEstimate(graph, next, goal)
+        fScore.set(next, gScore.get(next) + approxDistance)
       }
     }
 
