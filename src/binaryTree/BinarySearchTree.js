@@ -75,7 +75,6 @@ class BinarySearchTree extends BinaryTree {
           this.left.parent = this // for remove
           return this.left
         }
-        break
       case 1:
         if (this.right) {
           return this.right.insert(value)
@@ -84,7 +83,6 @@ class BinarySearchTree extends BinaryTree {
           this.right.parent = this // for remove
           return this.right
         }
-        break
     }
     return this
   }

@@ -81,6 +81,10 @@ class BinaryTree {
     return all
   }
 
+  get isLeaf() {
+    return !this.left && !this.right
+  }
+
   dump() {
     return `{ ${this.value.toString()} ${this.left
       ? this.left.dump() : '{ * }'} ${this.right
