@@ -1,8 +1,14 @@
 // https://en.wikipedia.org/wiki/A*_search_algorithm
 class AStar {
   searchPath(graph, start, goal, heuristicDistanceEstimate = null) {
-    if (!graph || !start || !goal) return null
-    heuristicDistanceEstimate = heuristicDistanceEstimate || this._heuristicDistanceEstimate
+    if (!graph || !start || !goal || !graph.hasVertex(start) || !graph.hasVertex(goal)) return null
+    heuristicDistanceEstimate = heuristicDistanceEstimate || ((node1, node2) => {
+      // well, this gives a distance proportional to when node was added in graph
+      const { vertices, reverseIndex } = graph.allVerticesWithIndex
+      const indexWeight = graph.totalWeight() / vertices.length
+      return indexWeight * Math.abs(reverseIndex.get(node2) - reverseIndex.get(node1))
+    })
+
     // already evaluated nodes
     const closed = new Set()
     const open = new Set([start])
@@ -47,12 +53,6 @@ class AStar {
     }
 
     return [] // not found
-  }
-
-  _heuristicDistanceEstimate(graph, node1, node2) {
-    const idx1 = graph.indexOf(node1)
-    const idx2 = graph.indexOf(node2)
-    return idx1 < idx2 ? idx2 : idx1
   }
 
   _buildPath(cameFrom, current) {

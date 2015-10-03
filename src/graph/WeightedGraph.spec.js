@@ -23,6 +23,7 @@ test('WeightedGraph :: add / remove', t => {
   })
 
   t.comment(g.toString())
+  t.comment(g.totalWeight())
 
   t.ok(g.hasVertexByValue('3') && g.hasEdgeByVerticesValue('3', '6'), 'has1')
   g.removeVertexByValue('3')

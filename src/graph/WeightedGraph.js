@@ -91,6 +91,11 @@ class Edge {
     yield this.end
   }
 
+  isReverseDirection(edge) {
+    if (!edge) return false
+    return edge.start === this.end && edge.end === this.start
+  }
+
   reverseDirection() {
     // swap
     [this.start, this.end] = [this.end, this.start]
@@ -312,6 +317,18 @@ class WeightedGraph {
 
   get edgeCount() {
     return this.edges.size
+  }
+
+  totalWeight(countReverseEdgesOnlyOnce = false) {
+    const processed = []
+    return this.allEdges.reduce((weight, edge) => {
+      if (countReverseEdgesOnlyOnce) {
+        const canProcess = processed.some(_ => edge.isReverseDirection(_))
+        processed.push(edge)
+        if (!canProcess) return weight
+      }
+      return weight + edge.weight
+    }, 0)
   }
 
   toAdjacencyMatrix() {

@@ -5,7 +5,7 @@ const graph = require('./WeightedGraph')
 test('AStar :: search', t => {
   const g = new graph.WeightedGraph()
 
-  const verticesByValue = ['Los Angles', 'New York', 'Vancouver', 'London', 'Paris', 'Frankfurt', 'Rome']
+  const verticesByValue = ['Rome', 'Vancouver', 'London', 'Paris', 'Frankfurt', 'Los Angles', 'New York']
   const edgesByValue = [ // [start, end, weight]
     ['Los Angles', 'New York', 3940], // km
     ['Los Angles', 'Vancouver', 1720],
@@ -64,5 +64,9 @@ test('AStar :: search', t => {
   }).map(_ => _.value)
   t.comment(path)
   t.same(path, ['Los Angles', 'Vancouver', 'London', 'Rome'])
+
+  // does heuristic matter? in our simple case does not seem to
+  const path2 = as.searchPath(g, g.firstVertexByValue('Los Angles'), g.firstVertexByValue('Rome'))
+  t.comment(path2)
   t.end()
 })
