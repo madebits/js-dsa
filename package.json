@@ -1,0 +1,36 @@
+{
+  "name": "jsdsa",
+  "version": "1.0.0",
+  "main": "index.js",
+  "description": "",
+  "scripts": {
+    "start": "npm run test",
+    "tape": "tape",
+    "test": "tape \"./src/**/*.spec.js\" | tap-spec",
+    "lint": "eslint --ext .js --format=node_modules/eslint-formatter-pretty ./src",
+    "lint-fix": "eslint --fix --ext .js --format=node_modules/eslint-formatter-pretty ./src",
+    "debug": "export NODE_ENV=development || set NODE_ENV=development&& nodemon --inspect=27982 index.js block"
+  },
+  "nodemonConfig": {
+    "events": {
+      "start": "npm run lint-fix -s",
+      "restart": "npm run lint-fix -s"
+    }
+  },
+  "keywords": [],
+  "author": "",
+  "license": "GPL",
+  "devDependencies": {
+    "eslint": "^5.1.0",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-formatter-pretty": "^1.3.0",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.8.0",
+    "eslint-plugin-standard": "^3.1.0",
+    "nodemon": "^1.18.2",
+    "require-dir": "^1.0.0",
+    "tap-spec": "^5.0.0",
+    "tape": "^4.9.1"
+  }
+}
