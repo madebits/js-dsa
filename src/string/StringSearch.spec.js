@@ -12,9 +12,3 @@ test('StringSearch :: kmp', t => {
   t.same(Array.from((new StringSearch()).kmpFind('ABCDABD', 'ABCDABDderfABCDABDghABCDABDkABCDABD')), [0, 11, 20, 28], 'Knuth-Morris-Pratt')
   t.end()
 })
-
-test('StringSearch :: rk', t => {
-  //                                                        01234567890123456789012345678900123
-  t.same(Array.from((new StringSearch()).rkFind('ABCDABD', 'ABCDABDderfABCDABDghABCDABDkABCDABD')), [0, 11, 20, 28], 'Rabin-Karp')
-  t.end()
-})
