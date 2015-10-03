@@ -18,13 +18,3 @@ test('StringSearch :: rk', t => {
   t.same(Array.from((new StringSearch()).rkFind('ABCDABD', 'ABCDABDderfABCDABDghABCDABDkABCDABD')), [0, 11, 20, 28], 'Rabin-Karp')
   t.end()
 })
-
-test('StringSearch :: lcs', t => {
-  t.same((new StringSearch()).lcs('ABAB', 'BABA'), ['ABA', 'BAB'], 'longestCommonSubstring')
-  t.end()
-})
-
-test('StringSearch :: editDistance', t => {
-  t.equal((new StringSearch()).levenshteinDistance('kitten', 'sitting'), 3, 'levenshteinDistance')
-  t.end()
-})
