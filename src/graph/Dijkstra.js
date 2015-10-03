@@ -58,7 +58,7 @@ class Dijkstra {
     return result
   }
 
-  findPath(result, targetVertex) {
+  buildPath(result, targetVertex) {
     const previous = result.previous
     targetVertex = targetVertex || result.targetVertex
     if (!previous || !targetVertex || !previous.get(targetVertex)) return null

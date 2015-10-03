@@ -52,6 +52,10 @@ class Vertex {
     return this.edges.map(_ => _.end)
   }
 
+  get neighborsWithWeight() {
+    return this.edges.map((_) => { return { neighbor: _.end, weight: _.weight } })
+  }
+
   get randomNeighbor() {
     if (!this.degree) return null
     const edge = this.edges[Math.floor(Math.random() * this.edges.length)]
@@ -121,13 +125,13 @@ class WeightedGraph {
   }
 
   // reverse lookup index map from vertex to its index
-  get allVerticesWithIdx() {
+  get allVerticesWithIndex() {
     const vertices = this.allVertices
-    const reverseIdx = new Map()
+    const reverseIndex = new Map()
     vertices.forEach((vertex, idx) => {
-      reverseIdx.set(vertex, idx)
+      reverseIndex.set(vertex, idx)
     })
-    return { vertices, reverseIdx }
+    return { vertices, reverseIndex }
   }
 
   get allEdges() {
@@ -146,6 +150,16 @@ class WeightedGraph {
 
   hasVertexByValue(value) {
     return !!this.firstVertexByValue(value)
+  }
+
+  // can be slow, consider using allVerticesWithIndex
+  indexOf(vertex) {
+    if (!this.hasVertex(vertex) || (this.vertexCount <= 0)) return -1
+    const vertices = this.allVertices
+    for (let i = 0; i < vertices.length; i++) {
+      if (vertices[i] === vertex) return i
+    }
+    return -1
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -301,18 +315,18 @@ class WeightedGraph {
   }
 
   toAdjacencyMatrix() {
-    const { vertices, reverseIdx } = this.allVerticesWithIdx
+    const { vertices, reverseIndex } = this.allVerticesWithIndex
     if (!vertices.length) return null
     const matrix = new Array(vertices.length).fill(null).map(_ => new Array(vertices.length).fill(Infinity))
     vertices.forEach((vertex, idx) => {
       vertex.neighbors.forEach(neighbor => {
-        const neighborIdx = reverseIdx.get(neighbor)
+        const neighborIdx = reverseIndex.get(neighbor)
         const edge = this.edgeByVertices(vertex, neighbor)
         matrix[idx][neighborIdx] = edge.weight
       })
     })
 
-    return { matrix, vertices, reverseIdx }
+    return { matrix, vertices, reverseIndex }
   }
 
   toString() {

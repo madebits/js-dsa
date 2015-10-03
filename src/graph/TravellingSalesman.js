@@ -4,7 +4,7 @@
 class TravellingSalesman {
   findBestPath(graph) {
     if (!graph) return null
-    const { matrix, vertices, reverseIdx } = graph.toAdjacencyMatrix()
+    const { matrix, vertices, reverseIndex } = graph.toAdjacencyMatrix()
     if (!vertices.length) return null
     const edges = graph.allEdges
     if (!edges.length) return null
@@ -23,7 +23,7 @@ class TravellingSalesman {
 
     for (let i = 0; i < allCycles.length; i++) {
       const cycle = allCycles[i]
-      const cycleWeight = this._cycleWeight(matrix, reverseIdx, cycle)
+      const cycleWeight = this._cycleWeight(matrix, reverseIndex, cycle)
       if (cycleWeight === Infinity) continue
       if (cycleWeight < pathWeight) {
         path = cycle
@@ -60,13 +60,13 @@ class TravellingSalesman {
     return paths
   }
 
-  _cycleWeight(adjacencyMatrix, reverseIdx, cycle) {
+  _cycleWeight(adjacencyMatrix, reverseIndex, cycle) {
     let weight = 0
     for (let i = 1; i < cycle.length; i++) {
       const from = cycle[i - 1]
       const to = cycle[i]
-      const fromIdx = reverseIdx.get(from)
-      const toIdx = reverseIdx.get(to)
+      const fromIdx = reverseIndex.get(from)
+      const toIdx = reverseIndex.get(to)
       //weight += graph.edgeByVertices(from, to).weight
       weight += adjacencyMatrix[fromIdx][toIdx] // cannot be Infinite given there is a connection
     }

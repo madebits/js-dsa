@@ -27,11 +27,11 @@ test('Dijkstra :: paths', t => {
 
   const start = g.firstVertexByValue('1')
   const result1 = d.dijkstra(g, start)
-  const path1 = d.findPath(result1, g.firstVertexByValue('5'))
+  const path1 = d.buildPath(result1, g.firstVertexByValue('5'))
   t.same(path1.map(_ => _.value), ['1', '3', '6', '5'])
 
   const result2 = d.dijkstra(g, start, g.firstVertexByValue('5'))
-  const path2 = d.findPath(result2)
+  const path2 = d.buildPath(result2)
   t.same(path2.map(_ => _.value), ['1', '3', '6', '5'])
 
   t.comment(path1)
