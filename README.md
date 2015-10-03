@@ -23,6 +23,8 @@ Data Structures and Algorithms in JavaScript
 	* [AStar.spec.js](/src/graph/AStar.spec.js)  &#10004;
 	* [DfsBfs.js](/src/graph/DfsBfs.js)  | [(?)](https://en.wikipedia.org/wiki/Depth-first_search)
 	* [DfsBfs.spec.js](/src/graph/DfsBfs.spec.js)  &#10004;
+	* [DfsCycle.js](/src/graph/DfsCycle.js)  | [(?)](https://en.wikipedia.org/wiki/Cycle_(graph_theory))
+	* [DfsCycle.spec.js](/src/graph/DfsCycle.spec.js)  &#10004;
 	* [Dijkstra.js](/src/graph/Dijkstra.js)  | [(?)](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm)
 	* [Dijkstra.spec.js](/src/graph/Dijkstra.spec.js)  &#10004;
 	* [Kosaraju.js](/src/graph/Kosaraju.js)  | [(?)](https://en.wikipedia.org/wiki/Kosaraju%27s_algorithm)

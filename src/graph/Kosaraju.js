@@ -6,6 +6,7 @@ class Kosaraju {
   // strong connected components of a graph
   // https://www.geeksforgeeks.org/strongly-connected-components/
   scc(graph) {
+    if (!graph) return null
     // first DFS
     const visited = new Map()
     graph.allVertices.forEach(_ => {
@@ -57,6 +58,8 @@ class Kosaraju {
   //////////////////////////////////////////////////////////////////////////////
 
   scc2(graph) {
+    if (!graph) return null
+
     // DFS1 find order
     let visited = new Map()
     const stack = []
