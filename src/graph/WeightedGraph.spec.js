@@ -1,7 +1,7 @@
 const test = require('tape')
 const graph = require('./WeightedGraph')
 
-test.only('WeightedGraph :: add / remove', t => {
+test('WeightedGraph :: add / remove', t => {
   const g = new graph.WeightedGraph()
   const verticesByValue = ['1', '2', '3', '4', '5', '6']
   const edgesByValue = [ // [start, end, weight]
@@ -41,8 +41,11 @@ test('WeightedGraph :: add / remove', t => {
   g.addEdgeFromToByValue('1', '1', 0, true)
   t.comment(g.toString())
 
-  t.ok(g.firstVertexByValue('1').pointsToSelf)
-
+  t.ok(g.firstVertexByValue('1').pointsToSelf, 'selfie')
+  t.equal(g.vertexCount, 1)
+  t.equal(g.edgeCount, 1)
+  t.equal(g.inDegree(g.firstVertexByValue('1')), 1, 'degree in')
+  t.equal(g.outDegree(g.firstVertexByValue('1')), 1, 'degree out')
   g.removeVertexByValue('1')
   t.equal(g.vertexCount + g.edgeCount, 0)
   t.end()

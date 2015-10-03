@@ -225,7 +225,7 @@ class WeightedGraph {
 
   addEdgeFromTo(vertex1, vertex2, weight = 0, inBothDirections = false) {
     this.addEdge(new Edge(vertex1, vertex2, weight))
-    if (inBothDirections) {
+    if (inBothDirections && (vertex1 !== vertex2)) {
       this.addEdge(new Edge(vertex2, vertex1, weight))
     }
     return this
@@ -298,10 +298,6 @@ class WeightedGraph {
 
   get edgeCount() {
     return this.edges.size
-  }
-
-  get totalWeight() {
-    return this.allEdges.reduce((sum, _) => sum + _.weight, 0)
   }
 
   toAdjacencyMatrix() {
