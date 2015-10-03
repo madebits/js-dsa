@@ -1,6 +1,6 @@
 class Set {
   constructor(data = null) {
-    // hash based
+    // object {} hash based
     this.clear()
     this.fromArray(data)
   }

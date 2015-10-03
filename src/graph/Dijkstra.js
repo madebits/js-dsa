@@ -11,9 +11,9 @@ class Dijkstra {
       throw new Error('wrong argument targetVertex')
     }
 
-    const distances = {}
-    const visited = {}
-    const previous = {}
+    const distances = new Map()
+    const visited = new Map()
+    const previous = new Map()
     const queue = new PriorityQueue()
 
     const result = {
@@ -26,10 +26,10 @@ class Dijkstra {
 
     // init
     graph.allVertices.forEach(_ => {
-      distances[_] = Infinity
-      previous[_] = null
+      distances.set(_, Infinity)
+      previous.set(_, null)
     })
-    distances[startVertex] = 0
+    distances.set(startVertex, 0)
 
     queue.enqueue(startVertex, distances[startVertex])
     while (!queue.empty) {
@@ -41,18 +41,18 @@ class Dijkstra {
       }
 
       current.neighbors.forEach(next => {
-        if (visited[next]) return
+        if (visited.get(next)) return
         const edge = current.edgeByVertex(next)
-        const existingDistance = distances[next]
-        const alternativeDistance = distances[current] + edge.weight
+        const existingDistance = distances.get(next)
+        const alternativeDistance = distances.get(current) + edge.weight
         if (alternativeDistance < existingDistance) {
-          distances[next] = alternativeDistance
+          distances.set(next, alternativeDistance)
           queue.removeByValue(next) // by vertex object id, not by vertex.value
-          previous[next] = current
+          previous.set(next, current)
         }
-        queue.enqueue(next, distances[next])
+        queue.enqueue(next, distances.get(next))
       })
-      visited[current] = true
+      visited.set(current, true)
     }
 
     return result
@@ -61,11 +61,11 @@ class Dijkstra {
   findPath(result, targetVertex) {
     const previous = result.previous
     targetVertex = targetVertex || result.targetVertex
-    if (!previous || !targetVertex || !previous[targetVertex]) return null
+    if (!previous || !targetVertex || !previous.get(targetVertex)) return null
     const stack = []
-    while (previous[targetVertex]) {
+    while (previous.get(targetVertex)) {
       stack.push(targetVertex)
-      targetVertex = previous[targetVertex]
+      targetVertex = previous.get(targetVertex)
     }
     stack.push(result.startVertex)
     return stack.reverse()
