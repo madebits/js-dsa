@@ -1,5 +1,6 @@
-// not a sorting algorithm, but a (fast) way to compare two strings taking into account numeric parts
+// https://en.wikipedia.org/wiki/Natural_sort_order
 
+// not a sorting algorithm, but a (fast) way to compare two strings taking into account numeric parts
 const naturalSort = (function () {
   /* eslint-disable complexity */
   const nc = function (s1, s2, zeroesFirst) {

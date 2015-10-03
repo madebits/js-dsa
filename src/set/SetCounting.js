@@ -1,3 +1,5 @@
+// https://en.wikipedia.org/wiki/Combination
+
 const Set = require('./Set')
 
 class SetCounting {

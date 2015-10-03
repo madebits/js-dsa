@@ -1,6 +1,7 @@
+// https://en.wikipedia.org/wiki/Kruskal%27s_algorithm
+
 const DisjointSet = require('../disjointSet/DisjointSet')
 
-// https://en.wikipedia.org/wiki/Kruskal%27s_algorithm
 // Minimum Spanning Tree
 class KruskalMinimumSpanningTree {
   // undirected graph, returns set of mst edges

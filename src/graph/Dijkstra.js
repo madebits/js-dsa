@@ -1,6 +1,7 @@
+// https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
+
 const PriorityQueue = require('../priorityQueue/PriorityQueue')
 
-// https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
 // graph is WeightedGraph, starNode is WeightedGraph Vertex
 class Dijkstra {
   dijkstra(graph, startVertex, targetVertex = null) {

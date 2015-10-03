@@ -1,5 +1,5 @@
-
-// run tests
+////////////////////////////////////////////////////////////////////////////////
+// tests
 
 require('require-dir')('src', {
   recurse: true,
@@ -30,6 +30,7 @@ test.onFinish(() => {
 })
 
 ////////////////////////////////////////////////////////////////////////////////
+// toc
 
 const fs = require('fs')
 const path = require('path')
@@ -43,36 +44,41 @@ const walkSync = (d) =>
       .filter(_ => _.endsWith('.js'))
     : d
 
-const generate = () => {
+const firstLine = file => {
+  const line = fs.readFileSync(file, 'utf-8').split('\n', 1)
+  return line && line.length ? line[0] : null
+}
+
+const toc = () => {
   const dir = path.resolve(__dirname)
   const src = path.resolve(path.join(__dirname, './src'))
   const files = walkSync(src).sort().map(_ => {
+    const isSpec =  _.endsWith('.spec.js')
     const fileLink = _.substr(dir.length).replace(/\\/g, '/')
+    const line = isSpec ? null : firstLine(_)
+    const infoUrl = line && line.startsWith('// http') ? line.substr(3) : null
     return {
-      isSpec: _.endsWith('.spec.js'),
+      isSpec,
       name: path.basename(_),
       link: fileLink,
       folderPath: path.dirname(fileLink) + '/',
-      folderName: path.dirname(_.substr(src.length + 1).replace(/\\/g, '/'))
+      folderName: path.dirname(_.substr(src.length + 1).replace(/\\/g, '/')),
+      infoUrl
     }
   })
-  let text = `&#10024; Data Structures and Algorithms in JavaScript${os.EOL}=======${os.EOL}${os.EOL}`
+  let text = `Data Structures and Algorithms in JavaScript${os.EOL}=======${os.EOL}${os.EOL}`
   let previousDir
   files.forEach(_ =>{
     if(previousDir !== _.folderPath) {
       text += `* [${_.folderName}](${_.folderPath})${os.EOL}`
       previousDir = _.folderPath
     }
-    text += `\t* [${_.name}](${_.link}) ${_.isSpec ? ' &#10004;' : '&#9749;' }${os.EOL}`
+    const info = _.infoUrl ? `[(?)](${_.infoUrl})` : ''
+    text += `\t* [${_.name}](${_.link}) ${_.isSpec ? ' &#10004;' : '' } ${info}${os.EOL}`
   })
   fs.writeFileSync(path.join(__dirname, 'README.md'), text)
 }
 
-generate()
-
-////////////////////////////////////////////////////////////////////////////////
-
-if(process.env.NODE_ENV === 'development')
-  setInterval(() => {}, 1 << 30)
+toc()
 
 ////////////////////////////////////////////////////////////////////////////////

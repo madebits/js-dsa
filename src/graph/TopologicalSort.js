@@ -1,9 +1,11 @@
-const graph = require('./Graph')
+// https://en.wikipedia.org/wiki/Topological_sorting
+
+const Graph = require('./Graph')
 
 class TopologicalSort {
   _getNode(nodesMap, value) {
     if (!nodesMap.has(value)) {
-      nodesMap.set(value, new graph.Graph(value))
+      nodesMap.set(value, new Graph(value))
     }
     return nodesMap.get(value)
   }
@@ -25,7 +27,7 @@ class TopologicalSort {
         })
       }
     })
-    return graph.Graph.create(Array.from(nodeMap.values()))
+    return Graph.create(Array.from(nodeMap.values()))
   }
 
   _calcIncomingEdges(nodesGraph) {

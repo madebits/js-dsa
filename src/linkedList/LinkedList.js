@@ -1,3 +1,5 @@
+// https://en.wikipedia.org/wiki/Linked_list
+
 class LinkedListNode {
   constructor(value, next = null) {
     this.value = value

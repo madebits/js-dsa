@@ -1,3 +1,4 @@
+// https://en.wikipedia.org/wiki/Merge_sort
 // O(n log(n)) in all cases
 class MergeSort {
   sort(array, comparer = null) {

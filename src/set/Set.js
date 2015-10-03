@@ -1,3 +1,5 @@
+// https://en.wikipedia.org/wiki/Set_(abstract_data_type)
+
 class Set {
   constructor(data = null) {
     // object {} hash based

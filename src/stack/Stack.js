@@ -1,3 +1,5 @@
+// https://en.wikipedia.org/wiki/Stack_(abstract_data_type)
+
 // sample Stack not using Array.{pop, push}
 class Stack {
   constructor(initialSize = 32) {

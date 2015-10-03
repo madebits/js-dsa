@@ -1,3 +1,5 @@
+// https://en.wikipedia.org/wiki/Hash_table
+
 class HashTable {
   constructor(size = 256, hasher = null, equalityComparer = null) {
     if (size < 0) size = 16

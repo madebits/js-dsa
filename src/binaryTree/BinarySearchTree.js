@@ -1,6 +1,6 @@
-const BinaryTree = require('./BinaryTree')
-
 // https://en.wikipedia.org/wiki/Binary_search_tree
+
+const BinaryTree = require('./BinaryTree')
 
 class BinarySearchTree extends BinaryTree {
   constructor(value = null, comparer = null) {

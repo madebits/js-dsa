@@ -1,3 +1,4 @@
+// https://en.wikipedia.org/wiki/Fibonacci_number
 class Sequences {
   static * fibonacci(count) {
     if (count < 0) count = 1

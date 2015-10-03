@@ -1,3 +1,5 @@
+// https://en.wikipedia.org/wiki/Priority_queue
+
 const BinaryHeap = require('../binaryHeap/BinaryHeap')
 
 class PriorityQueueNode {

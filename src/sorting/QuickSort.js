@@ -1,3 +1,4 @@
+// https://en.wikipedia.org/wiki/Quicksort
 // best O( n log(n) ), Average: O (n log(n)), Worst: O(n2)
 class QuickSort {
   sort(array, comparer = null) {

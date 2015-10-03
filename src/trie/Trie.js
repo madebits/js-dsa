@@ -1,4 +1,4 @@
-//https://en.wikipedia.org/wiki/Trie
+// https://en.wikipedia.org/wiki/Trie
 
 class TrieNode {
   constructor(value) {
