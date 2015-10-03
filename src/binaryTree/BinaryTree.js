@@ -93,6 +93,26 @@ class BinaryTree {
     return !this.left && !this.right
   }
 
+  getNodeAtIndex(idx) {
+    let result
+    let i = -1
+    this.inOrderTraversal((_, node) => {
+      i++
+      if (i === idx) {
+        result = node
+      }
+    }, () => result)
+    return result
+  }
+
+  get size() {
+    let size = 0
+    this.inOrderTraversal(() => {
+      size++
+    })
+    return size
+  }
+
   dump() {
     return `{ ${this.value.toString()} ${this.left
       ? this.left.dump() : '{ * }'} ${this.right

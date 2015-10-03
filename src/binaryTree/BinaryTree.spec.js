@@ -69,6 +69,40 @@ test('BinaryTree :: is full', t => {
   t.end()
 })
 
+test('BinaryTree :: size', t => {
+  const bt = makeBinaryTree()
+  t.same(bt.size, 7)
+  t.end()
+})
+
+test('BinaryTree :: get node at index', t => {
+  const bt = makeBinaryTree()
+  t.comment(bt.ordered)
+  t.same(bt.getNodeAtIndex(4).value, 5)
+  t.end()
+})
+
+////////////////////////////////////////////////////////////////////////////////
+
+test('BinaryTree :: random node', t => {
+  // not a test
+  const bt = makeBinaryTree()
+  const size = bt.size
+  const count = new Map()
+  for (let i = 0; i < size * 1000; i++) {
+    const idx = Math.floor(Math.random() * size)
+    const value = bt.getNodeAtIndex(idx).value
+    if (!count.has(value)) {
+      count.set(value, 1)
+    } else {
+      count.set(value, count.get(value) + 1)
+    }
+  }
+  const result = Array.from(count.values()).reduce((sum, value) => { sum += ((value - 1000) ** 2); return sum }, 0)
+  t.comment(Math.sqrt(result / size))
+  t.end()
+})
+
 ////////////////////////////////////////////////////////////////////////////////
 
 test('BinaryTree :: find common parent', t => {
