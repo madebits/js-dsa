@@ -1,4 +1,5 @@
 // https://en.wikipedia.org/wiki/Trie
+// https://github.com/donnemartin/interactive-coding-challenges/tree/master/graphs_trees/trie
 
 class TrieNode {
   constructor(value) {
