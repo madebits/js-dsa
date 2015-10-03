@@ -71,7 +71,7 @@ test('BinaryTree :: is full', t => {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-test.only('BinaryTree :: find common parent', t => {
+test('BinaryTree :: find common parent', t => {
   // O(n) with O(n) space
   const findCommonParent = (tree, node1, node2) => {
     if (!tree || !node1 || !node2) return null
