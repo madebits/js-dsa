@@ -73,8 +73,8 @@ const toc = () => {
       text += `* [${_.folderName}](${_.folderPath})${os.EOL}`
       previousDir = _.folderPath
     }
-    const info = _.infoUrl ? `[(?)](${_.infoUrl})` : ''
-    text += `\t* [${_.name}](${_.link}) ${_.isSpec ? ' &#10004;' : '' } ${info}${os.EOL}`
+    const info = _.infoUrl ? ` | [(?)](${_.infoUrl})` : ''
+    text += `\t* [${_.name}](${_.link}) ${_.isSpec ? ' &#10004;' : '' }${info}${os.EOL}`
   })
   fs.writeFileSync(path.join(__dirname, 'README.md'), text)
 }
