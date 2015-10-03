@@ -10,7 +10,7 @@ Data Structures and Algorithms in JavaScript
 * [graph/AStar.js](./src/graph/AStar.js)
 * [graph/Dijkstra.js](./src/graph/Dijkstra.js)
 * [graph/Graph.js](./src/graph/Graph.js)
-* [graph/KruskalMst.js](./src/graph/KruskalMst.js)
+* [graph/KruskalMinimumSpanningTree.js](./src/graph/KruskalMinimumSpanningTree.js)
 * [graph/TopologicalSort.js](./src/graph/TopologicalSort.js)
 * [graph/TravellingSalesman.js](./src/graph/TravellingSalesman.js)
 * [graph/WeightedGraph.js](./src/graph/WeightedGraph.js)
