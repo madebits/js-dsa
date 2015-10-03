@@ -385,7 +385,7 @@ class WeightedGraph {
       })
     })
 
-    return { matrix, vertices, reverseIndex }
+    return { matrix, vertices, reverseIndex, graph: this }
   }
 
   // does not clone values
