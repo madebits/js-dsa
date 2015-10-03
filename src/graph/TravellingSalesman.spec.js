@@ -3,7 +3,7 @@ const graph = require('./WeightedGraph')
 const TravellingSalesman = require('./TravellingSalesman')
 
 test('TravellingSalesman :: findPath', t => {
-  const g = new graph.WeightedGraph()
+  const g = new graph.WeightedGraph(false)
 
   const verticesByValue = ['a', 'b', 'c', 'd']
   const edgesByValue = [ // [start, end, weight]
@@ -17,7 +17,7 @@ test('TravellingSalesman :: findPath', t => {
     g.addVertexByValue(_)
   })
   edgesByValue.forEach(_ => {
-    g.addEdgeFromToByValue(_[0], _[1], _[2], true)
+    g.addEdgeFromToByValue(_[0], _[1], _[2])
   })
 
   const tsm = new TravellingSalesman()

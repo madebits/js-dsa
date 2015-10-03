@@ -16,10 +16,7 @@ class KruskalMst {
     const edges = graph.allEdges.sort((a, b) => a.weight - b.weight)
     for (let edge of edges) {
       if (disjointSet.union(edge.start, edge.end)) {
-        result.add(edge) // one direction only, use graph.findReverseEdge to find other direction
-        // specific to my directed graph implementation
-        const reverse = graph.findReverseEdge(edge)
-        if (reverse) result.add(reverse)
+        result.add(edge)
       }
     }
 

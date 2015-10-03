@@ -3,7 +3,7 @@ const Dijkstra = require('./Dijkstra')
 const graph = require('./WeightedGraph')
 
 test('Dijkstra :: paths', t => {
-  const g = new graph.WeightedGraph()
+  const g = new graph.WeightedGraph(true)
   const d = new Dijkstra()
 
   const verticesByValue = ['1', '2', '3', '4', '5', '6']

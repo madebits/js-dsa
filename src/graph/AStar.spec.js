@@ -26,7 +26,7 @@ test('AStar :: search', t => {
     g.addVertexByValue(_)
   })
   edgesByValue.forEach(_ => {
-    g.addEdgeFromToByValue(_[0], _[1], _[2], true)
+    g.addEdgeFromToByValue(_[0], _[1], _[2])
   })
 
   var approx = {

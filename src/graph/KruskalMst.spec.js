@@ -19,19 +19,19 @@ test('KruskalMst :: mst', t => {
     ['F', 'G', 11],
   ]
   edges.forEach(_ => {
-    g.addEdgeFromToByValue(_[0], _[1], _[2], true) // both directions
+    g.addEdgeFromToByValue(_[0], _[1], _[2]) // both directions
   })
   const res = k.mst(g)
-  t.equal(res.size, 12)
+  t.equal(res.size, 6, 'size')
 
-  const hasEdge = (a, b) => res.has(g.edgeByVerticesValue(a, b))
+  const hasEdge = (a, b) => res.has(g.edgeByVerticesValue(a, b)) || res.has(g.edgeByVerticesValue(b, a))
   // mst
-  t.ok(hasEdge('A', 'B'))
-  t.ok(hasEdge('B', 'E'))
-  t.ok(hasEdge('E', 'C'))
-  t.ok(hasEdge('E', 'G'))
-  t.ok(hasEdge('A', 'D'))
-  t.ok(hasEdge('D', 'F'))
+  t.ok(hasEdge('A', 'B'), 'AB')
+  t.ok(hasEdge('B', 'E'), 'BE')
+  t.ok(hasEdge('E', 'C'), 'EC')
+  t.ok(hasEdge('E', 'G'), 'EG')
+  t.ok(hasEdge('A', 'D'), 'AD')
+  t.ok(hasEdge('D', 'F'), 'DF')
 
   const clone = g.cloneSubGraph(res)
   t.comment(clone)

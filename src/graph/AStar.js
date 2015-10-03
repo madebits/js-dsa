@@ -5,7 +5,7 @@ class AStar {
     heuristicDistanceEstimate = heuristicDistanceEstimate || ((node1, node2) => {
       // well, this gives a distance proportional to when node was added in graph
       const { vertices, reverseIndex } = graph.allVerticesWithIndex
-      const indexWeight = graph.totalWeight() / vertices.length
+      const indexWeight = graph.totalWeight / vertices.length
       return indexWeight * Math.abs(reverseIndex.get(node2) - reverseIndex.get(node1))
     })
 

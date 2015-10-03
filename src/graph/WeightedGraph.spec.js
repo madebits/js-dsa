@@ -1,8 +1,45 @@
 const test = require('tape')
 const graph = require('./WeightedGraph')
 
+test('WeightedGraph:: directed', t => {
+  const g = new graph.WeightedGraph(true)
+  g.addEdgeFromToByValue('1', '1', 5)
+  g.addEdgeFromToByValue('1', '2', 5)
+  t.ok(g.hasEdgeByVerticesValue('1', '1'))
+  t.ok(g.hasEdgeByVerticesValue('1', '2'))
+  t.ok(!g.hasEdgeByVerticesValue('2', '1'))
+  g.addEdgeFromToByValue('2', '3', 5)
+  g.addEdgeFromToByValue('2', '1', 5)
+  t.equal(g.totalWeight, 20)
+  t.ok(g.hasEdgeByVerticesValue('2', '1'))
+  g.removeEdgeByVerticesValue('2', '1')
+  t.comment(g)
+  t.ok(!g.hasEdgeByVerticesValue('2', '1'))
+  t.ok(g.hasEdgeByVerticesValue('2', '3'))
+  t.end()
+})
+
+test('WeightedGraph:: undirected', t => {
+  const g = new graph.WeightedGraph(false)
+  g.addEdgeFromToByValue('1', '1', 5)
+  g.addEdgeFromToByValue('1', '2', 5)
+  t.ok(g.hasEdgeByVerticesValue('1', '1'))
+  t.ok(g.hasEdgeByVerticesValue('1', '2'))
+  t.ok(g.hasEdgeByVerticesValue('2', '1'))
+  g.addEdgeFromToByValue('2', '3', 5)
+  g.addEdgeFromToByValue('2', '1', 5)
+  t.equal(g.totalWeight, 15)
+  t.ok(g.hasEdgeByVerticesValue('2', '1'))
+  g.removeEdgeByVerticesValue('2', '1')
+  t.comment(g)
+  t.ok(!g.hasEdgeByVerticesValue('2', '1'))
+  t.ok(!g.hasEdgeByVerticesValue('1', '2'))
+  t.ok(g.hasEdgeByVerticesValue('2', '3'))
+  t.end()
+})
+
 test('WeightedGraph :: add / remove', t => {
-  const g = new graph.WeightedGraph()
+  const g = new graph.WeightedGraph(true)
   const verticesByValue = ['1', '2', '3', '4', '5', '6']
   const edgesByValue = [ // [start, end, weight]
     ['1', '2', 7],
@@ -23,7 +60,7 @@ test('WeightedGraph :: add / remove', t => {
   })
 
   t.comment(g.toString())
-  t.comment(g.totalWeight())
+  t.comment(g.totalWeight)
 
   t.ok(g.hasVertexByValue('3') && g.hasEdgeByVerticesValue('3', '6'), 'has1')
   g.removeVertexByValue('3')
@@ -31,13 +68,13 @@ test('WeightedGraph :: add / remove', t => {
     !g.hasEdgeByVerticesValue('3', '6') &&
     !g.hasEdgeByVerticesValue('2', '3') &&
     !g.hasEdgeByVerticesValue('3', '4'), 'has2')
-  t.equals(g.outDegree(g.firstVertexByValue('4')), 1)
-  t.equals(g.inDegree(g.firstVertexByValue('5')), 2)
+  t.equals(g.outDegree(g.firstVertexByValue('4')), 1, 'od')
+  t.equals(g.inDegree(g.firstVertexByValue('5')), 2, 'id')
   t.end()
 })
 
 test('WeightedGraph :: add / remove', t => {
-  const g = new graph.WeightedGraph()
+  const g = new graph.WeightedGraph(true)
   g.addVertexByValue('1')
   g.addEdgeFromToByValue('1', '1', 0, true)
   t.comment(g.toString())

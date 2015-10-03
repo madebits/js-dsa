@@ -25,7 +25,7 @@ class Vertex {
     if (!edge) return false
     const idx = this.edges.indexOf(edge)
     if (idx >= 0) {
-      this.edges.slice(idx, 1)
+      this.edges.splice(idx, 1)
       return true
     }
     return false
@@ -43,23 +43,17 @@ class Vertex {
 
   edgeByVertex(vertex) {
     if (!vertex) return null
-    return this.edges.find(_ => _.end === vertex)
+    return this.edges.find(_ => _.end === vertex || _.start === vertex)
   }
 
   //////////////////////////////////////////////////////////////////////////////
 
   get neighbors() {
-    return this.edges.map(_ => _.end)
+    return this.edges.map(_ => _.start === this ? _.end : _.start)
   }
 
   get neighborsWithWeight() {
-    return this.edges.map((_) => { return { neighbor: _.end, weight: _.weight } })
-  }
-
-  get randomNeighbor() {
-    if (!this.degree) return null
-    const edge = this.edges[Math.floor(Math.random() * this.edges.length)]
-    return edge.start === this ? edge.end : edge.start
+    return this.edges.map((_) => { return { neighbor: _.start === this ? _.end : _.start, weight: _.weight } })
   }
 
   hasNeighbor(vertex) {
@@ -108,9 +102,10 @@ class Edge {
 
 // a directed graph
 class WeightedGraph {
-  constructor(valueEqualityComparer = null) {
+  constructor(isDirected = false, valueEqualityComparer = null) {
     this.clear()
     this.sameValue = valueEqualityComparer || ((a, b) => a === b)
+    this.isDirected = isDirected
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -268,6 +263,9 @@ class WeightedGraph {
   addEdge(edge) {
     if (!edge) throw new Error('null edge')
     if (this.hasEdge(edge)) return this
+    if (this.hasEdgeByVertices(edge.start, edge.end)) {
+      return this
+    }
     this.edges.add(edge)
     for (let vertex of edge.vertices()) {
       if (!this.hasVertex(vertex)) {
@@ -275,17 +273,8 @@ class WeightedGraph {
       }
     }
     edge.start.addEdge(edge) // directed only start node has the edge
-    return this
-  }
-
-  addUndirectedEdge(edge) {
-    return this.addBidirectionalEdge(edge)
-  }
-
-  addBidirectionalEdge(edge) {
-    this.addEdge(edge)
-    if (!this.findReverseEdge(edge)) {
-      this.addEdgeFromTo(edge.end, edge.start, edge.weight, false)
+    if (!this.isDirected && (edge.start !== edge.end)) {
+      edge.end.addEdge(edge)
     }
     return this
   }
@@ -297,6 +286,19 @@ class WeightedGraph {
     for (let vertex of edge.vertices()) {
       vertex.removeEdge(edge)
     }
+    return true
+  }
+
+  removeEdgeByVertices(start, end) {
+    const edge = this.edgeByVertices(start, end)
+    if (!edge) return false
+    return this.removeEdge(edge)
+  }
+
+  removeEdgeByVerticesValue(startValue, endValue) {
+    const edge = this.edgeByVerticesValue(startValue, endValue)
+    if (!edge) return false
+    return this.removeEdge(edge)
   }
 
   edgeByVertices(start, end) {
@@ -352,16 +354,8 @@ class WeightedGraph {
     return this.edges.size
   }
 
-  totalWeight(countReverseEdgesOnlyOnce = false) {
-    const processed = []
-    return this.allEdges.reduce((weight, edge) => {
-      if (countReverseEdgesOnlyOnce) {
-        const canProcess = processed.some(_ => edge.isReverseDirection(_))
-        processed.push(edge)
-        if (!canProcess) return weight
-      }
-      return weight + edge.weight
-    }, 0)
+  get totalWeight() {
+    return this.allEdges.reduce((weight, edge) => weight + edge.weight, 0)
   }
 
   toAdjacencyMatrix() {
