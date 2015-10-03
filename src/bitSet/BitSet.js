@@ -12,7 +12,7 @@ class BitSet {
     // we will use array of 8 bits elements, 8 = 2^3, a full 1s byte is 0xFF
     this._data = new Array(((n - 1) >> 3) + 1).fill(allSet ? 0xFF : 0)
     this._n = n // remember
-    if (allSet) { // set zeros for unused part, to make compare later easier
+    if (allSet) { // set zeros for unused part, to ease comparing later
       const remainder = (this.capacity << 3) - this.length
       if (remainder > 0) {
         this._data[this._data.length - 1] &= (0xFF >> remainder)
@@ -35,6 +35,11 @@ class BitSet {
     for (let i = 0; i < min; i++) {
       this._data[i] = oldData[i]
     }
+  }
+
+  get isCapacityPowerOfTwo() {
+    const n = this.capacity
+    return (n & (n - 1)) === 0
   }
 
   _check(n) {
@@ -67,7 +72,7 @@ class BitSet {
       bitIdx
     } = this._location(n)
     // NOT ~ => 0 becomes 1, and 1 become 0
-    // given ~n = -n - 1, then -n = ~n + 1 <= switch sign
+    // Example: given ~n = -n - 1, then -n = ~n + 1 <= switch sign
     const mask = ~(1 << bitIdx)
     // AND & => 1 if both 1, 0 otherwise
     this._data[idx] = this._data[idx] & mask
@@ -137,7 +142,7 @@ class BitSet {
     }
     const result = new BitSet(this.length)
     for (let i = 0; i < this._data.length; i++) {
-      // XOR ^ 0 if both 0 or 1, and 1 otherwise (when one 1 and other 0)
+      // XOR ^ => 1 if bits differ and 0 if same
       result._data[i] = this._data[i] ^ other._data[i]
     }
     return result
