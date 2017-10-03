@@ -2,10 +2,26 @@
 // https://en.wikipedia.org/wiki/Euclidean_algorithm
 class Fraction {
   constructor(numerator, denominator = 1, reduce = false) {
+    this.init(numerator, denominator, reduce)
+  }
+
+  init(numerator, denominator = 1, reduce = false) {
     if (denominator === 0) throw new Error('NaN')
     this.numerator = numerator
     this.denominator = denominator
     if (reduce) this.reduce()
+  }
+
+  static fromParts(numerator, denominator = 1, reduce = false) {
+    return new Fraction(numerator, denominator, reduce)
+  }
+
+  static fromString(str) {
+    if (!str) throw new Error('invalid')
+    const parts = str.split('/', 2)
+    const n = parseInt(parts[0])
+    const d = parts.length > 1 ? parseInt(parts[1]) : 1
+    return new Fraction(n, d)
   }
 
   get denominator() {
@@ -57,7 +73,7 @@ class Fraction {
 
   cloneToWholeAndRemainder() {
     const clone = this.clone().reduce()
-    return [ new Fraction(clone.wholePart), new Fraction(clone.remainderPart, clone.denominator) ]
+    return [new Fraction(clone.wholePart), new Fraction(clone.remainderPart, clone.denominator)]
   }
 
   // greatest common divisor: greatest number that divides two positive numbers a and b without reminder
@@ -83,7 +99,7 @@ class Fraction {
   }
 
   simplify() {
-    return this.reduce
+    return this.reduce()
   }
 
   _ok(other) {
@@ -93,6 +109,10 @@ class Fraction {
   same(other) {
     if (!this._ok(other)) return false
     return this.numerator === other.numerator && this.denominator === other.denominator
+  }
+
+  equals(other) {
+    return this.equivalent(other)
   }
 
   equivalent(other) {
@@ -148,12 +168,17 @@ class Fraction {
     return this.numerator / this.denominator
   }
 
-  fromFloat(value, precision = 10) {
+  static fromFloat(value, precision = 10) {
+    const isPositive = value >= 0.0
+    value = Math.abs(value);
+    var intergerDigits = value < 1 ? 0 : Math.floor(Math.log10(value))
     if (precision < 0) precision = 0
+    precision = precision + intergerDigits
+
     const temp = 10 ** precision
-    this.numerator = value * temp
-    this.denominator = temp
-    return this
+    const numerator = Math.floor(value * temp)
+    const denominator = temp
+    return new Fraction(isPositive ? numerator : -numerator, denominator, true)
   }
 
   toString() {

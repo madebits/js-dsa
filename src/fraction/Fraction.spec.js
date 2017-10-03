@@ -31,6 +31,6 @@ test('Fraction :: math', t => {
   t.equal(new Fraction(3, 4).mul(new Fraction(-2, 6)).toString(), '-6/24')
   t.equal(new Fraction(3, 4).div(new Fraction(-2, 6)).toString(), '-18/8')
   t.equal(new Fraction(3, 4).div(new Fraction(-2, 6)).reduce().toString(), '-9/4')
-  t.ok(new Fraction(1).fromFloat(123.23456, 4).toFloat() - 123.2345 < 0.0001, 'float')
+  t.ok(Fraction.fromFloat(123.23456, 4).toFloat() - 123.2345 < 0.0001, 'float')
   t.end()
 })
