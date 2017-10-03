@@ -6,10 +6,24 @@ class Fraction {
   }
 
   init(numerator, denominator = 1, reduce = false) {
-    if (denominator === 0) throw new Error('NaN')
-    this.numerator = numerator
+    this.numerator = Math.floor(numerator)
     this.denominator = denominator
     if (reduce) this.reduce()
+  }
+
+  static from() {
+    if (!arguments.length) return new Fraction(0, 1)
+    const a1 = arguments[0]
+    const a1Type = typeof (a1)
+    if (a1Type === 'string') return Fraction.fromString(a1)
+    if (arguments.length < 2) return Fraction.fromFloat(a1)
+
+    // a bit ambiguous here
+    if (Number.isInteger(a1)) {
+      return new Fraction(a1, arguments[1])
+    }
+
+    return Fraction.fromFloat(a1, arguments[1])
   }
 
   static fromParts(numerator, denominator = 1, reduce = false) {
@@ -30,7 +44,7 @@ class Fraction {
 
   set denominator(value) {
     if (value === 0) throw new Error('NaN')
-    this._denominator = value
+    this._denominator = Math.floor(value)
     if (this._denominator < 0) {
       this.numerator *= -1 // normalize sign
       this._denominator *= -1
@@ -173,7 +187,7 @@ class Fraction {
     value = Math.abs(value);
     const intDigits = value < 1 ? 0 : Math.floor(Math.log10(value))
     if (precision < 0) precision = 0
-    precision = precision + intDigits
+    precision = Math.floor(precision) + intDigits
 
     const temp = 10 ** precision
     const numerator = Math.floor(value * temp)
