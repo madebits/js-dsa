@@ -42,7 +42,7 @@ class Dijkstra {
       }
 
       current.neighbors.forEach(next => {
-        if (visited.get(next)) return
+        if (visited.has(next)) return
         const edge = current.edgeByVertex(next)
         const existingDistance = distances.get(next)
         const alternativeDistance = distances.get(current) + edge.weight

@@ -20,7 +20,7 @@ class DfsBfs {
     }
 
     for (let child of graph.neighbors) {
-      if (visited.get(child)) continue
+      if (visited.has(child)) continue
       DfsBfs._dfs(child, visitor, visited, pathStack)
     }
 
@@ -53,7 +53,7 @@ class DfsBfs {
       visitor.enterNode(node)
       if (visitor.shouldStop()) return
       node.neighbors.forEach(child => {
-        if (marked.get(child)) return
+        if (marked.has(child)) return
         queue.push(child)
         marked.set(child, true)
       })

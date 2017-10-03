@@ -14,7 +14,7 @@ class Kosaraju {
     })
     const stack = []
     graph.allVertices.forEach(_ => {
-      if (visited.get(_)) return
+      if (visited.has(_)) return
       this._fillOrder(_, visited, stack)
     })
 
@@ -27,7 +27,7 @@ class Kosaraju {
     const result = []
     for (let i = stack.length - 1; i >= 0; i--) {
       const current = stack[i]
-      if (visited.get(current)) continue
+      if (visited.has(current)) continue
       // scc of current
       const oneSet = this._scc(current, visited, [])
       result.push(oneSet)
@@ -39,7 +39,7 @@ class Kosaraju {
   _fillOrder(node, visited, stack) {
     visited.set(node, true)
     for (let next of node.neighbors) {
-      if (visited.get(next)) continue
+      if (visited.has(next)) continue
       this._fillOrder(next, visited, stack)
     }
     stack.push(node)
@@ -49,7 +49,7 @@ class Kosaraju {
     res.push(node)
     visited.set(node, true)
     for (let next of node.neighbors) {
-      if (visited.get(next)) continue
+      if (visited.has(next)) continue
       this._scc(next, visited, res)
     }
     return res
@@ -64,7 +64,7 @@ class Kosaraju {
     let visited = new Map()
     const stack = []
     graph.allVertices.forEach(_ => {
-      if (visited.get(_)) return
+      if (visited.has(_)) return
       DfsBfs.dfs(_, {
         leaveNode: node => stack.push(node)
       }, false, visited)
@@ -77,7 +77,7 @@ class Kosaraju {
     const result = []
     for (let i = stack.length - 1; i >= 0; i--) {
       const current = stack[i]
-      if (visited.get(current)) continue
+      if (visited.has(current)) continue
       // scc of current
       const oneSet = []
       DfsBfs.dfs(current, {
