@@ -184,7 +184,7 @@ class Fraction {
 
   static fromFloat(value, precision = 10) {
     const isPositive = value >= 0.0
-    value = Math.abs(value);
+    value = Math.abs(value)
     const intDigits = value < 1 ? 0 : Math.floor(Math.log10(value))
     if (precision < 0) precision = 0
     precision = Math.floor(precision) + intDigits
