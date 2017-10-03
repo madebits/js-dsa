@@ -171,9 +171,9 @@ class Fraction {
   static fromFloat(value, precision = 10) {
     const isPositive = value >= 0.0
     value = Math.abs(value);
-    var intergerDigits = value < 1 ? 0 : Math.floor(Math.log10(value))
+    var intDigits = value < 1 ? 0 : Math.floor(Math.log10(value))
     if (precision < 0) precision = 0
-    precision = precision + intergerDigits
+    precision = precision + intDigits
 
     const temp = 10 ** precision
     const numerator = Math.floor(value * temp)
