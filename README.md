@@ -57,6 +57,8 @@ Data Structures and Algorithms in JavaScript
 * [puzzles](/src/puzzles/)
 	* [EightQueens.js](/src/puzzles/EightQueens.js)  | [(?)](https://en.wikipedia.org/wiki/Eight_queens_puzzle)
 	* [EightQueens.spec.js](/src/puzzles/EightQueens.spec.js)  &#10004;
+	* [MagicSquare.js](/src/puzzles/MagicSquare.js)  | [(?)](https://en.wikipedia.org/wiki/Siamese_method)
+	* [MagicSquare.spec.js](/src/puzzles/MagicSquare.spec.js)  &#10004;
 	* [MultiplyWithoutMultiplication.js](/src/puzzles/MultiplyWithoutMultiplication.js)  | [(?)](https://www.geeksforgeeks.org/multiply-two-numbers-without-using-multiply-division-bitwise-operators-and-no-loops/)
 	* [MultiplyWithoutMultiplication.spec.js](/src/puzzles/MultiplyWithoutMultiplication.spec.js)  &#10004;
 	* [TowersOfHanoi.js](/src/puzzles/TowersOfHanoi.js)  | [(?)](https://en.wikipedia.org/wiki/Tower_of_Hanoi)
