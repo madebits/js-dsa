@@ -40,6 +40,7 @@ class SetCounting {
       : this._permutations(values, 0)
   }
 
+  // permutation without repetition
   _permutations(values, start) {
     // dynamic programming
     if (this._permutationsCache.has(start)) {
@@ -66,7 +67,7 @@ class SetCounting {
     return result
   }
 
-  // put new element in every place in an existing permutation
+  // put new element in every place of an existing permutation
   _increasePermutationWithNewElement(element, permutation, result) {
     for (let i = 0; i <= permutation.length; i++) {
       const prefix = permutation.slice(0, i)
@@ -127,8 +128,7 @@ class SetCounting {
     for (let i = (values.length - 1); i > 0; i = i - 1) {
       const randomIdx = Math.floor(Math.random() * (i + 1))
       // swap values[i] and values[randomIdx]
-      ;
-      [values[i], values[randomIdx]] = [values[randomIdx], values[i]]
+      ;[values[i], values[randomIdx]] = [values[randomIdx], values[i]]
     }
     return values
   }
@@ -182,7 +182,10 @@ class SetCounting {
     for (let k = start; k < values.length; k++) {
       const element = values[k]
       const advance = withRepeatedElements ? 0 : 1
-      const combinations = this._take(values, k + advance, length - 1, withRepeatedElements)
+      const combinations = this._take(values,
+        k + advance,
+        length - 1,
+        withRepeatedElements)
       for (let i = 0; i < combinations.length; i++) {
         result.push([element].concat(combinations[i]))
       }
@@ -196,10 +199,11 @@ class SetCounting {
 
   // power set cardinality
   get subsetsCount() {
-    return 2 ** this.cardinality
+    return 1 << this.cardinality
+    //return 2 ** this.cardinality
   }
 
-  // 1 ... 2^n bit to index mapping works only for few elements, we clone here
+  // 1 ... 2^n bits to index mapping works only for few elements, we clone here
   subsets() {
     const values = this.values()
     const subsets = []

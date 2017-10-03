@@ -171,6 +171,23 @@ class LinkedList {
     return result
   }
 
+  moveNodeToHead(node) {
+    if (node === this.head) return
+    let newHead = node
+    if (node.next) { // node is not the last one, O(1)
+      const nodeValue = node.value
+      // copy over next value to node and delete next
+      newHead = node.next
+      node.value = node.next.value
+      node.next = node.next.next
+      newHead.value = nodeValue
+    } else { // node is last one O(n)
+      this.deleteNode(node)
+    }
+    newHead.next = this.head
+    this.head = newHead
+  }
+
   fromArray(a, reset = false) {
     a = a ? Array.isArray(a) ? a : [a] : []
     if (reset) this.reset()

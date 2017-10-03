@@ -16,6 +16,6 @@ test('BidirectionalBfs :: path', t => {
     g.firstVertexByValue('A'), g.firstVertexByValue('E'))
 
   t.comment(path.join(','))
-  t.same(path.map(_ => _.value), [ 'A', 'B', 'D', 'E'], 'bi-bfs')
+  t.same(path.map(_ => _.value), ['A', 'B', 'D', 'E'], 'bi-bfs')
   t.end()
 })

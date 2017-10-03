@@ -37,7 +37,7 @@ class Stack {
 
   push(value) {
     this.index++
-      this._ensureSize()
+    this._ensureSize()
     this.data[this.index] = value
   }
 
@@ -70,6 +70,10 @@ class Stack {
     for (let e of a) {
       this.push(e)
     }
+  }
+
+  toString() {
+    return this.toArray().join(',')
   }
 }
 

@@ -37,6 +37,21 @@ test('LinkedList :: iterator', t => {
   t.end()
 })
 
+test('LinkedList :: move node to head', t => {
+  const ll = new LinkedList()
+  const a = [0, 1, 2, 3, 4]
+  ll.fromArray(a)
+  ll.moveNodeToHead(ll.find(3))
+  t.same(ll.toArray(), [3, 0, 1, 2, 4], 'move middle')
+  ll.moveNodeToHead(ll.find(4))
+  t.same(ll.toArray(), [4, 3, 0, 1, 2], 'move last')
+  ll.moveNodeToHead(ll.find(3))
+  t.same(ll.toArray(), [3, 4, 0, 1, 2], 'move second')
+  ll.moveNodeToHead(ll.find(3))
+  t.same(ll.toArray(), [3, 4, 0, 1, 2], 'move head')
+  t.end()
+})
+
 test('LinkedList :: stack', t => {
   const ll = new LinkedList()
   ll.push(1)
