@@ -1,3 +1,4 @@
+// https://en.wikipedia.org/wiki/Bidirectional_search
 // breadth first search from both directions
 
 class BidirectionalBfs {

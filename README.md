@@ -23,7 +23,7 @@ Data Structures and Algorithms in JavaScript
 	* [AStar.spec.js](/src/graph/AStar.spec.js)  &#10004;
 	* [BellmanFord.js](/src/graph/BellmanFord.js)  | [(?)](https://en.wikipedia.org/wiki/Bellman%E2%80%93Ford_algorithm)
 	* [BellmanFord.spec.js](/src/graph/BellmanFord.spec.js)  &#10004;
-	* [BidirectionalBfs.js](/src/graph/BidirectionalBfs.js) 
+	* [BidirectionalBfs.js](/src/graph/BidirectionalBfs.js)  | [(?)](https://en.wikipedia.org/wiki/Bidirectional_search)
 	* [BidirectionalBfs.spec.js](/src/graph/BidirectionalBfs.spec.js)  &#10004;
 	* [DfsBfs.js](/src/graph/DfsBfs.js)  | [(?)](https://en.wikipedia.org/wiki/Depth-first_search)
 	* [DfsBfs.spec.js](/src/graph/DfsBfs.spec.js)  &#10004;
