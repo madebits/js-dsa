@@ -33,7 +33,7 @@ class Dijkstra {
     distances.set(startVertex, 0)
 
     queue.enqueue(startVertex, distances[startVertex])
-    while (!queue.empty) {
+    while (!queue.isEmpty) {
       const current = queue.dequeue() // min
 
       // this can be extended to be a target set if needed

@@ -89,9 +89,9 @@ test('BitSet :: clones', t => {
   b2.set(32)
   t.ok(b1.same(b2), 'same')
 
-  t.ok(!b1.empty, 'empty')
+  t.ok(!b1.isEmpty, 'empty')
   b1.clear()
-  t.ok(b1.empty, 'empty')
+  t.ok(b1.isEmpty, 'empty')
 
   t.end()
 })

@@ -35,6 +35,8 @@ Data Structures and Algorithms in JavaScript
 	* [Kosaraju.spec.js](/src/graph/Kosaraju.spec.js)  &#10004;
 	* [KruskalMinimumSpanningTree.js](/src/graph/KruskalMinimumSpanningTree.js)  | [(?)](https://en.wikipedia.org/wiki/Kruskal%27s_algorithm)
 	* [KruskalMinimumSpanningTree.spec.js](/src/graph/KruskalMinimumSpanningTree.spec.js)  &#10004;
+	* [Prim.js](/src/graph/Prim.js)  | [(?)](https://en.wikipedia.org/wiki/Prim%27s_algorithm)
+	* [Prim.spec.js](/src/graph/Prim.spec.js)  &#10004;
 	* [TopologicalSort.js](/src/graph/TopologicalSort.js)  | [(?)](https://en.wikipedia.org/wiki/Topological_sorting)
 	* [TopologicalSort.spec.js](/src/graph/TopologicalSort.spec.js)  &#10004;
 	* [TravellingSalesman.js](/src/graph/TravellingSalesman.js)  | [(?)](https://en.wikipedia.org/wiki/Travelling_salesman_problem)

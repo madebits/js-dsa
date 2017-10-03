@@ -154,7 +154,7 @@ class BitSet {
     }
   }
 
-  get empty() {
+  get isEmpty() {
     return !this._data.some(_ => _ !== 0)
   }
 

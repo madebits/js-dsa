@@ -112,8 +112,8 @@ class WeightedGraph {
   //////////////////////////////////////////////////////////////////////////////
 
   // factory: create a new graph
-  createNewGraph(valueEqualityComparer = null) {
-    return new WeightedGraph(valueEqualityComparer || this.sameValue.bind(this))
+  createNewGraph(isDirected = false, valueEqualityComparer = null) {
+    return new WeightedGraph(isDirected, valueEqualityComparer || this.sameValue.bind(this))
   }
 
   // factory: creates a new vertex, but does not add it to graph (use addVertex to add it)

@@ -59,7 +59,7 @@ class PriorityQueue {
     return this.data.count
   }
 
-  get empty() {
+  get isEmpty() {
     return !this.count
   }
 
