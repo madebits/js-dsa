@@ -1,4 +1,4 @@
-// breadth first search from both direction
+// breadth first search from both directions
 
 class BidirectionalBfs {
   searchPath(graph, src, dst) {
