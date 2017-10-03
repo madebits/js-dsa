@@ -48,6 +48,8 @@ Data Structures and Algorithms in JavaScript
 * [hashTable](/src/hashTable/)
 	* [HashTable.js](/src/hashTable/HashTable.js)  | [(?)](https://en.wikipedia.org/wiki/Hash_table)
 	* [HashTable.spec.js](/src/hashTable/HashTable.spec.js)  &#10004;
+	* [LruCache.js](/src/hashTable/LruCache.js)  | [(?)](https://en.wikipedia.org/wiki/Cache_replacement_policies#Least_recently_used_(LRU))
+	* [LruCache.spec.js](/src/hashTable/LruCache.spec.js)  &#10004;
 * [linkedList](/src/linkedList/)
 	* [LinkedList.js](/src/linkedList/LinkedList.js)  | [(?)](https://en.wikipedia.org/wiki/Linked_list)
 	* [LinkedList.spec.js](/src/linkedList/LinkedList.spec.js)  &#10004;

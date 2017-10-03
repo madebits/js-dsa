@@ -92,11 +92,13 @@ class LinkedList {
     return node && this.head && this.head === node
   }
 
+  // O(1)
   prepend(value) {
     this.head = new LinkedListNode(value, this.head)
     return this
   }
 
+  // O(n)
   append(value) {
     const node = new LinkedListNode(value)
     if (this.isEmpty) {
@@ -113,6 +115,7 @@ class LinkedList {
     return this
   }
 
+  // O(n)
   deleteNode(node) {
     if (!node) return
     if (this.isEmpty) return
@@ -157,6 +160,25 @@ class LinkedList {
     return this
   }
 
+  // returns tail node, O(n)
+  deleteTailNode() {
+    if (this.isEmpty) return null
+    if (!this.head.next) {
+      const temp = this.head
+      this.head = null
+      return temp
+    }
+
+    let current = this.head.next
+    let parent = this.head
+    while (current.next) {
+      parent = current
+      current = current.next
+    }
+    parent.next = null
+    return current
+  }
+
   // find first node having value
   find(value, equalityComparer = null) {
     const comparer = equalityComparer || ((a, b) => a === b)
@@ -172,6 +194,7 @@ class LinkedList {
   }
 
   moveNodeToHead(node) {
+    if (this.isEmpty) throw new Error('empty')
     if (node === this.head) return
     let newHead = node
     if (node.next) { // node is not the last one, O(1)
@@ -233,8 +256,9 @@ class LinkedList {
     return this.pop()
   }
 
-  toString() {
-    return this.toArray().join(',')
+  toString(valueMapper = null) {
+    valueMapper = valueMapper || (_ => _)
+    return this.toArray().map(valueMapper).join(',')
   }
 }
 

@@ -132,6 +132,11 @@ class HashTable {
       idealBucketLength: this.count / this._buckets.length
     }
   }
+
+  toString(entryMapper) {
+    entryMapper = entryMapper || (_ => _.key)
+    return this.entries.map(entryMapper).join(',')
+  }
 }
 
 module.exports = HashTable
