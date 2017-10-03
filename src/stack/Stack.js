@@ -19,6 +19,11 @@ class Stack {
     return power < x ? x : power
   }
 
+  _nextPowerOfTwo2(x) {
+    if ((x & (x - 1)) === 0) return x
+    return 2 ** (Math.floor(Math.log2(x)) + 1)
+  }
+
   _ensureSize() {
     if (this.index >= this.data.length) {
       // copy over
@@ -32,7 +37,7 @@ class Stack {
 
   push(value) {
     this.index++
-    this._ensureSize()
+      this._ensureSize()
     this.data[this.index] = value
   }
 
